@@ -9,15 +9,11 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
-from requests import get
-
 from django.shortcuts import redirect, render, get_object_or_404
 
 # //////////////////////////////////////
 # paths 
 # //////////////////////////////////////
-
-
 def index(request):
     remote_ip = request.META.get('REMOTE_ADDR')
     print("IP VISITANTE INDEX: ",remote_ip)
