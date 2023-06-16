@@ -9,7 +9,7 @@
 
 {% block content %}
 <body onload="obtenerInquilino()">
-<div id="li2" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
     <div class="d-block mb-4 mb-md-0" style="margin-left:10px">
         <h1 class="h1">Inquilinos</h>
         <p class="mb-0">Listado de inquilinos</p>
@@ -133,31 +133,16 @@
                         <hr class="hr" />
                           <div class="mb-3">
                               <label for="url_domicilio">Comprobante Domicilio.</label>
-                              <input class="form-control" id="Comp_dom" name="Comp_dom" accept="application/pdf" type="file" title="No mayor a 3 meses." data-bs-toggle="tooltip" data-bs-placement="top" >
+                              <input class="form-control" id="Comp_dom" name="Comp_dom" type="file" title="No mayor a 3 meses." data-bs-toggle="tooltip" data-bs-placement="top" >
                           </div>
                           <div class="mb-3">
                               <label for="url_ine" class="form-label">Identificación Oficial Vigente (Pasaporte/INE/Cédula Profesional)</label>
-                              <input class="form-control"  id="Ine" name="Ine" accept="application/pdf" type="file" placeholder="URL">
+                              <input class="form-control"  id="Ine" name="Ine" type="file" placeholder="URL">
                           </div>
                           <div class="mb-3">
                               <label for="url_situacion_fiscal" class="form-label">Constancia de Situación Fiscal</label>
-                              <input class="form-control"  id="Rfc" name="Rfc" accept="application/pdf" type="file" placeholder="URL">
+                              <input class="form-control"  id="Rfc" name="Rfc" type="file" placeholder="URL">
                           </div>
-    
-                            <div class="mb-3" id="div-ingresos">
-                                <label for="url_situacion_fiscal" class="form-label">Comprobante De Ingreso (Recibos de nomina o Estados de cuenta)</label>
-                                <input class="form-control"  id="Ingresos" accept="application/pdf" name="Ingresos" type="file" placeholder="URL">
-                            </div>
-                            <div class="mb-3" id="div-crl">
-                                <label for="url_situacion_fiscal" class="form-label">Carta De Recomendacion Laboral</label>
-                                <input class="form-control"  id="Recomendacion_laboral" name="Recomendacion_laboral" accept="application/pdf" type="file" placeholder="URL">
-                            </div>
-                            <p>Nota. En caso que le soliciten subir un documento en especial, hagalo en este espacio</p>
-                            <div class="mb-3" id="div-extras">
-                                <label for="url_situacion_fiscal" class="form-label">Documentos Extra</label>
-                                <input class="form-control"  id="Extras" name="Extras" accept="application/pdf" type="file" placeholder="URL">
-                            </div>
-                         
                           {% csrf_token %}
                           <button type="submit" id="finalizar"  class="btn btn-primary">Subir Archivos</button>
                       </form>
@@ -231,7 +216,7 @@
 
     });
 
-const server = 'http://192.168.2.14:8001'
+const server = 'http://192.168.2.24:8001'
 const configin = {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -248,54 +233,12 @@ btnSubmit.addEventListener("click", function (event) {
     var fileInputElement1 = document.getElementById("Comp_dom")
     var fileInputElement2 = document.getElementById("Ine")
     var fileInputElement3 = document.getElementById("Rfc")
-    
-    var ingreso = document.getElementById("Ingresos")
-    var extras = document.getElementById("Extras")
-    var rec_lab = document.getElementById("Recomendacion_laboral")
-
-    console.log("ingreso",ingreso.files[0])
-    console.log("extras",extras.files[0])
-    console.log("Recomendacion_laboral",rec_lab.files[0])
 
     formData.append("Comp_dom", fileInputElement1.files[0]);
     formData.append("Ine", fileInputElement2.files[0]);
     formData.append("Rfc", fileInputElement3.files[0]);
-    formData.append("Ingresos", ingreso.files[0]);
-    formData.append("Extras", extras.files[0]);
-    formData.append("Recomendacion_laboral", rec_lab.files[0]);
     formData.append("inquilino", document.getElementById("inquilino").value );
-    console.log(formData)
-    var next = true
-    if(fileInputElement1.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'Ine es obligatorio!'
-          })
-          next= false
-
-    }
-    if(fileInputElement2.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'Comprobante De Docmicilio es obligatorio!'
-          })
-          next= false
-
-    }
-    if(fileInputElement3.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'RFC es obligatorio!'
-          })
-          next= false
-
-    }
-   
-    if(next)enviar_datos(formData)
-    
+    enviar_datos(formData)
 })
 
 async function enviar_datos(formulario){
@@ -319,24 +262,8 @@ function obtenerInquilino(){
     console.log(datos)
     document.getElementById("inquilino").value = `${datos.id}`
     document.getElementById("inquilino_nombre").value = `${datos.nombre} ${datos.apellido} ${datos.apellido1}`
-    // ocultar documentos para pf o para pm
-        if(datos.p_fom == "Persona Moral"){
-        document.getElementById("div-ingresos").style.display = 'none'
-        document.getElementById("div-crl").style.display = 'none'
-
-        }
-
     } 
 
-</script>
-<script src="/static/assets/repositorios/loader.js"></script>
-<script>
-    document.getElementById("li2").onload = inicio()
-    function inicio(){
-         console.log("entro inicio")
-        auten()
-    }
-   
 </script>
 
 {% endblock javascripts %}

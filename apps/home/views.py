@@ -9,11 +9,15 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from requests import get
+
 from django.shortcuts import redirect, render, get_object_or_404
 
 # //////////////////////////////////////
 # paths 
 # //////////////////////////////////////
+
+
 def index(request):
     remote_ip = request.META.get('REMOTE_ADDR')
     print("IP VISITANTE INDEX: ",remote_ip)
@@ -37,6 +41,10 @@ def path_archivos_inq(request,id):
 def path_detalles_archivos(request,id):
     return render(request, 'home/inquilinos/detalles_archivos.html', {
     })
+
+def path_detalles_archivos_historial(request,id):
+    return render(request, 'home/inquilinos/historial_documentos.html', {
+    })
 #================FIADORES=================
 def path_foo(request):
     return render(request, 'home/Fiador/Foo.html', {
@@ -58,9 +66,89 @@ def path_doc_inquilino(request):
 def prueba(request):
     return render(request, 'home/datos_arren.html', {
     })   
+
+def path_arrendador(request):
+    return render(request, 'home/arrendador/arrendador.html', {
+    })
+
+def path_arrendador_editar(request,slug):
+    return render(request, 'home/arrendador/edit_arr.html', {
+})
+
+def path_arrendador_detalles(request,slug):
+    return render(request, 'home/arrendador/detalles-arrendador.html', {
+})
+
+#================FIADORES=================
+def path_foo(request):
+    return render(request, 'home/Fiador/Foo.html', {
+    })
+def path_foo_detalles(request,slug):
+    return render(request, 'home/Fiador/detalles_foo.html', {
+    })
+def path_foo_edit(request,slug):
+    return render(request, 'home/Fiador/edit_inq_foo.html', {
+    })    
+def path_archivos_fia(request,id):
+    return render(request, 'home/Fiador/archivos_fiador.html', {
+    })
+def path_detalles_archivos_fia(request,id):
+    return render(request, 'home/Fiador/detalles_archivos.html', {
+    })
+
 def tyc(request):
     return render(request, 'home/Terminos.html', {
-    })  
+    })
+    
+
+# path inmuebles
+def path_inmuebles(request):
+    return render(request, 'home/inmuebles/inmuebles.html', {
+    })
+
+def path_inmuebles_editar(request, slug):
+    return render(request, 'home/inmuebles/edit_inmueble.html', {
+    })
+
+def path_inmuebles_detalles(request, slug):
+    return render(request, 'home/inmuebles/detalles-inmueble.html', {
+    })
+# path archivos arrendador
+
+def path_documentos_arrendador(request):
+    return render(request, 'home/archivos_arrendador/documentos_arrendador.html',{    
+    })
+
+def path_documentos_arrendador_editar(request):
+    return render(request, 'home/archivos_arrendador/documentos_editar.html',{    
+    })
+
+def path_documentos_arrendador_detalles(request):
+    return render(request, 'home/archivos_arrendador/detalles_documentos.html',{    
+    })
+
+
+def path_documentos_arrendador_detalles_nuevo_template(request):
+    return render(request, 'home/arrendador/detalles_archivos.html',{    
+    })
+
+def path_documentos_arrendador_detalles_unico_arrendador(request, slug):
+    return render(request, 'home/arrendador/detalles_archivos.html',{    
+    })
+
+def path_documentos_arrendador_ver_historial(request, slug):
+    return render(request, 'home/arrendador/historial_arrendador.html',{    
+    })
+
+# Path validar arrendador
+def path_total_arrendadores(request):
+    return render(request, 'home/validacion_arrendador/total_arrendadores_validar.html',{    
+})
+
+def path_validar_arrendador(request):
+    return render(request, 'home/validacion_arrendador/validar_arrendador.html',{    
+})
+
 
 def pages(request):
     context = {}

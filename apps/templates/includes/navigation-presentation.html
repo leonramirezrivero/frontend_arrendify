@@ -78,22 +78,21 @@ headers: {
     
 function Logout(){
 
-    axios.post('http://192.168.2.24:8001/logout_api/',vacio,configin2)
-  .then(function (response) {
+    axios.post('http://192.168.2.14:8001/logout_api/',vacio,configin2)
+    .then(function (response) {
     // manejar respuesta exitosa
-    console.log(response);
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    location.reload()
-
-  })
-  .catch(function (error) {
-    // manejar error
-    console.log(error);
-  })
-  .finally(function () {
-    // siempre sera executado
-  });   
+        console.log(response);
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        location.reload()
+    })
+    .catch(function (error) {
+        // manejar error
+        console.log(error);
+    })
+    .finally(function () {
+      // siempre sera executado
+    });   
     
 } 
 

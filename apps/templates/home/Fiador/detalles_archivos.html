@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Inquilinos - Documentos - Detalles {% endblock %} 
+{% block title %} FIador - Documentos - Detalles {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -14,13 +14,13 @@
 <body onload="obtenerInquilino()">
 <div id="li2" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
     <div class="d-block mb-4 mb-md-0" style="margin-left:10px">
-        <h1 class="h1">Inquilinos</h>
-        <p class="mb-0">Listado de inquilinos</p>
+      <h1 class="h1">Fiadores/Obligados </h1>
+      <p class="mb-0">Listado de Fiadores/Obligados Registrados</p>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="#" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center me-2">
             <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Nuevo Inquilino
+            Nuevo Fiador/Obligado
         </a>
     </div>
   </div>
@@ -120,8 +120,8 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title text-primary" id="exampleModalLabel">Documentos Subidos - Inquilino</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.href='/inquilinos/';"></button>
+            <h5 class="modal-title text-primary" id="exampleModalLabel">Documentos Subidos - Fiador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.href='/fiador_obligado/';"></button>
         </div>
         <div class="modal-body" style="background:linear-gradient(0deg, #231942ff, #5e548eff, #9f86c0ff, #be95c4ff, #e0b1cbff);">
           <div class="row me-1 ms-1 border shadow border-2" style="background-color:white;">
@@ -130,9 +130,9 @@
             </div>
             
             <div class="col-md-4 mb-3">
-                <label>Inquilino: </label>
-                <input id="inquilino" name="inquilino"  type="text" style="display:none"  readonly>
-                <input class="form-control-plaintext card shadow border-1 ps-1" id="inquilino_nombre" type="text" value="{{ arrendador.nombre_notario_ac}}"  readonly>
+                <label>Fiador: </label>
+                <input id="fiador" name="fiador"  type="text" style="display:none"  readonly>
+                <input class="form-control-plaintext card shadow border-1 ps-1" id="fiador_nombre" type="text" value="{{ arrendador.nombre_notario_ac}}"  readonly>
             </div> 
         </div> 
             <form class="mt-4" id="editar_archivos">
@@ -207,20 +207,20 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div id="div-ingresos" class="col-md-4">
                       <div class="card mb-4">
                           <div class="card-body">
-                              <h5 class="card-title" style="color:#231942ff;">RFC</h5>
+                              <h5 class="card-title" style="color:#231942ff;">Comprobante De Ingreso:</h5>
                               <hr class="hr" />
                               <div class="mb-3" style="margin-bottom: 0;">
-                                  <a class="mt-1" id="link_rfc" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                  <a class="mt-1" id="link_ingresos" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
                                       <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
-                                          <iframe src="" id="frame_rfc" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                          <iframe src="" id="frame_ingresos" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
                                       </div>
                                       <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
                                       <p>Ver Documento.</p>
                                   </a>
-                                  <div id="div-comentarios-rfc">
+                                  <div id="div-comentarios-Estado_cuenta">
                                     <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                   </div>
@@ -229,125 +229,56 @@
                           <div class="card-body pt-0">
                               <div class="col">           
                                   <!-- El botón de archivo personalizado -->
-                                  <label for="Rfc" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                  <label for="Estado_cuenta" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                                       <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                       <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                                   </svg>
                                   </label>
                                   <!-- El input file oculto -->
-                                  <input type="file" class="file-input" id="Rfc" hidden required>
+                                  <input type="file" class="file-input" id="Estado_cuenta" hidden required>
                               </div>
                           </div>
                       </div>
                   </div>
 
+                  <div id="div-escrituras" class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:#231942ff;">Escrituras:</h5>
+                            <hr class="hr" />
+                            <div class="mb-3" style="margin-bottom: 0;">
+                                <a class="mt-1" id="link_escrituras" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                    <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
+                                        <iframe src="" id="frame_escrituras" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                    </div>
+                                    <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
+                                    <p>Ver Documento.</p>
+                                </a>
+                                <div id="div-comentarios-rfc">
+                                  <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
+                                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="col">           
+                                <!-- El botón de archivo personalizado -->
+                                <label for="Escrituras" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                </svg>
+                                </label>
+                                <!-- El input file oculto -->
+                                <input type="file" class="file-input" id="Escrituras" hidden required>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title" style="color:#231942ff;">Ingresos</h5>
-                                <hr class="hr" />
-                                <div class="mb-3" style="margin-bottom: 0;">
-                                    <a class="mt-1" id="link_ingresos" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
-                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
-                                            <iframe src="" id="frame_ingresos" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
-                                        </div>
-                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
-                                        <p>Ver Archivo.</p>
-                                    </a>
-                                    <div id="div-comentarios-ingresos">
-                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
-                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="col">           
-                                                <!-- El botón de archivo personalizado -->
-                                    <label for="Ingresos" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                    </svg>
-                                    </label>
-                                    <!-- El input file oculto -->
-                                    <input type="file" class="file-input" id="Ingresos" hidden>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title" style="color:#231942ff;">Recomendacion Laboral</h5>
-                                <hr class="hr" />
-                                <div class="mb-3" style="margin-bottom: 0;">
-                                    <a class="mt-1" id="link_recomendacion_laboral" href="#" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
-                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
-                                            <iframe src=""  id="frame_recomendacion_laboral" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
-                                        </div>
-                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
-                                        <p>Ver Documento.</p>
-                                    </a>
-                                    <div id="div-comentarios-rl">
-                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
-                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="col">           
-                                                <!-- El botón de archivo personalizado -->
-                                    <label for="Recomendacion_laboral" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                    </svg>
-                                    </label>
-                                    <!-- El input file oculto -->
-                                    <input type="file" class="file-input" id="Recomendacion_laboral" hidden>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title" style="color:#231942ff;">Documentos Extra</h5>
-                                <hr class="hr" />
-                                <div class="mb-3" style="margin-bottom: 0;">
-                                    <a class="mt-1" id="link_extras" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
-                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
-                                            <iframe src="" id="frame_extras" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
-                                        </div>
-                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
-                                        <p class="text-primary">Ver Documento.</p>
-                                    </a>
-                                    <div id="div-comentarios-docs">
-                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
-                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="col">           
-                                                <!-- El botón de archivo personalizado -->
-                                    <label for="Extras" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                    </svg>
-                                    </label>
-                                    <!-- El input file oculto -->
-                                    <input type="file" class="file-input" id="Extras" hidden>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
             {% comment %} <button type="submit" class="btn btn-primary">Enviar</button> {% endcomment %}
             <button type="submit" id="finalizar"  class="btn btn-secondary mt-2">Guardar Cambios</button>
         </form>
@@ -616,10 +547,9 @@ const configin = {
   
       var fileInputElement1 = document.getElementById("Comp_dom")
       var fileInputElement2 = document.getElementById("Ine")
-      var fileInputElement3 = document.getElementById("Rfc")
-      var fileInputElement4 = document.getElementById("Ingresos")
-      var fileInputElement5 = document.getElementById("Extras")
-      var fileInputElement6 = document.getElementById("Recomendacion_laboral")
+      var fileInputElement3 = document.getElementById("Estado_cuenta")
+      var fileInputElement4 = document.getElementById("Escrituras")
+    
       console.log(fileInputElement2.files)
      
       if (fileInputElement1.files.length == 1){
@@ -642,44 +572,27 @@ const configin = {
       }
   
       if (fileInputElement3.files.length == 1){
-        console.log("RFC No esta vacio")
-        formData.append("Rfc", fileInputElement3.files[0])
+        console.log("Estado_cuenta No esta vacio")
+        formData.append("Estado_cuenta", fileInputElement3.files[0])
         enviar_datos(formData)
       }
       else{
-      console.log("RFC esta vacio")
+      console.log("Estado_cuenta esta vacio")
         
       }
       if (fileInputElement4.files.length == 1){
-        console.log("Ingresos No esta vacio")
+        console.log("Escrituras No esta vacio")
         console.log(fileInputElement4.files[0])
   
-        formData.append("Ingresos", fileInputElement4.files[0]);
+        formData.append("Escrituras", fileInputElement4.files[0]);
         enviar_datos(formData)
       }
       else{
-      console.log("Ingresos esta vacio")
+      console.log("Escrituras esta vacio")
         //
       }
-      if (fileInputElement5.files.length == 1){
-        console.log("Extras No esta vacio")
-        formData.append("Extras", fileInputElement5.files[0]);
-        enviar_datos(formData)
-      }
-      else{
-      console.log("Extras esta vacio")
-        //
-      }
-      if (fileInputElement6.files.length == 1){
-        console.log("Recomendacion laboral No esta vacio")
-        formData.append("Recomendacion_laboral", fileInputElement6.files[0]);
-        enviar_datos(formData)
-      }
-      else{
-      console.log("Recomendacion laboral esta vacio")
-        //
-      }
-  if (fileInputElement6.files.length == 0 && fileInputElement5.files.length == 0 && fileInputElement4.files.length == 0 && fileInputElement3.files.length == 0 && fileInputElement2.files.length == 0 && fileInputElement1.files.length == 0 )
+     
+  if (fileInputElement4.files.length == 0 && fileInputElement3.files.length == 0 && fileInputElement2.files.length == 0 && fileInputElement1.files.length == 0 )
   {
     Swal.fire({
       icon: 'error',
@@ -691,49 +604,54 @@ const configin = {
   })
 
 function obtenerInquilino(){
-    var datos = JSON.parse( localStorage.getItem('data_inquilino'))
-   
-    console.log("detalles archivo",datos)
-   
-    document.getElementById("inquilino").value = `${datos.id}`
-    document.getElementById("inquilino_nombre").value = `${datos.nombre} ${datos.apellido} ${datos.apellido1}`
+      var datos = JSON.parse( localStorage.getItem('data_fiador'))
+      console.log(datos)
+      
+      if(datos.fiador_obligado == "Fiador Solidario"){
+      document.getElementById("div-ingresos").style.display = 'none'
+      document.getElementById("fiador").value = `${datos.id}`
+      document.getElementById("fiador_nombre").value = `${datos.n_fiador} ${datos.a_fiador} ${datos.a2_fiador}`
+      // ocultar documentos para pf o para pm
+
+      }
+      if(datos.fiador_obligado == "Obligado Solidario Persona Fisica" || datos.fiador_obligado == "Obligado Solidario Persona Moral"){
+          document.getElementById("div-escrituras").style.display = 'none';
+          document.getElementById("fiador").value = `${datos.id}`;
+          document.getElementById("fiador_nombre").value =  datos.fiador_obligado == "Obligado Solidario Persona Fisica" ? `${datos.n_fiador} ${datos.a_fiador} ${datos.a2_fiador}` : `${datos.nombre_comercial}`;
+      }
     
-    comp = datos.archivos[0].Comp_dom
-    comp = `${server}/static${comp}`
+    comp_dom_nueva = datos.archivos[0].Comp_dom
+    comp_dom = comp_dom_nueva.split("/")
+    comp_dom = comp_dom[0] + "/"  + comp_dom[1] +"/" + comp_dom[2] + "/static/" + comp_dom[3] + "/" + comp_dom[4] + "/" + comp_dom[5] + "/" + comp_dom[6] + "/" + comp_dom[7] + "/" + comp_dom[8] + "/" + comp_dom[9] + "/" 
+    console.log(comp_dom); 
+    document.getElementById("link_cd").href = comp_dom;
+    document.getElementById("frame_cd").src = comp_dom;
   
-    ine = datos.archivos[0].Ine
-    ine = `${server}/static${ine}`
-    
-    rfc = datos.archivos[0].Rfc
-    rfc = `${server}/static${rfc}`
-
-    //OPCIONALES
-    ingresos =  datos.archivos[0].Ingresos !== null ? `${server}/static${datos.archivos[0].Ingresos}` : '/static/assets/img/icons/256.png';
-    rl =  datos.archivos[0].Recomendacion_laboral !== null ? `${server}/static${datos.archivos[0].Recomendacion_laboral}` : '/static/assets/img/icons/256.png';
-    extra =  datos.archivos[0].Extras !== null ? `${server}/static${datos.archivos[0].Extras}` : '/static/assets/img/icons/256.png';
-
-    console.log(comp);
+    ine_nueva = datos.archivos[0].Ine
+    ine = ine_nueva.split("/")
+    ine = ine[0] + "/"  + ine[1] +"/" + ine[2] + "/static/" + ine[3] + "/" + ine[4] + "/" + ine[5] + "/" + ine[6] + "/" + ine[7] + "/" + ine[8] + "/" + ine[9] + "/" + ine[10] + "/"
     console.log(ine);
-    console.log(rfc);
-    
-    
-    document.getElementById("link_cd").href = comp;
-    document.getElementById("frame_cd").src = comp;
-
     document.getElementById("link_ine").href = ine;
     document.getElementById("frame_ine").src = ine;
 
-    document.getElementById("link_rfc").href = rfc;
-    document.getElementById("frame_rfc").src = rfc;
-
-    document.getElementById("link_ingresos").href = ingresos;
-    document.getElementById("frame_ingresos").src = ingresos;
-
-    document.getElementById("link_extras").href = extra;
-    document.getElementById("frame_extras").src = extra;
-
-    document.getElementById("link_recomendacion_laboral").href = rl;
-    document.getElementById("frame_recomendacion_laboral").src = rl;
+  //OPCIONALES
+    if(datos.archivos[0].Estado_cuenta){
+      ec_nueva = datos.archivos[0].Estado_cuenta
+      ec = ec_nueva.split("/")
+      ec = ec[0] + "/"  + ec[1] +"/" + ec[2] + "/static/" + ec[3] + "/" + ec[4] + "/" + ec[5] + "/" + ec[6] + "/" + ec[7] + "/" + ec[8] + "/" + ec[9] + "/" 
+      console.log(ec);
+      document.getElementById("link_ingresos").href = ec;
+      document.getElementById("frame_ingresos").src = ec;
+    }
+    
+    if(datos.archivos[0].Escrituras){
+      escri_nueva = datos.archivos[0].Escrituras
+      escri = escri_nueva.split("/")
+      escri = escri[0] + "/"  + escri[1] +"/" + escri[2] + "/static/" + escri[3] + "/" + escri[4] + "/" + escri[5] + "/" + escri[6] + "/" + escri[7] + "/" + escri[8] + "/" + escri[9] + "/" 
+      console.log(escri);
+      document.getElementById("link_escrituras").href = escri;
+      document.getElementById("frame_escrituras").src = escri;
+    }
     
    /* var historial_predial = `
                             <button type="button" class="btn btn-success px-3 align-self-center" id="ver_historial_predial" title="Ver historial" data-bs-toggle="tooltip" onclick="ver_historial('${datos.inquilino[0].id}', 'predial')">
@@ -747,15 +665,12 @@ function obtenerInquilino(){
 
 
 function enviar_datos(formulario){
-  var datos = JSON.parse( localStorage.getItem('data_inquilino'))
+  var datos = JSON.parse( localStorage.getItem('data_fiador'))
   var cd = document.getElementById("Comp_dom")
   var i = document.getElementById("Ine")
-  var r = document.getElementById("Rfc")
+  var ec = document.getElementById("Estado_cuenta")
 
-  var ingreso = document.getElementById("Ingresos")
-  
-  var e = document.getElementById("Extras")
-  var rl = document.getElementById("Recomendacion_laboral")
+  var escritura = document.getElementById("Escrituras")
   console.log("datos viejos",datos)
   console.log("formulario",formulario)
 
@@ -763,7 +678,7 @@ function enviar_datos(formulario){
 
   // Actualizar un objeto
   //axios.put(`${server}/documentos_edit/${id}/`,formulario,configin) metodo for
-  axios.put(`${server}/documentos_reg/${id}/`,formulario,configin) // update
+  axios.put(`${server}/documentos_foo/${id}/`,formulario,configin) // update
   .then(response => {
     console.log(response.data);  // Imprimir los datos del objeto actualizado
     let respuesta = response.data
@@ -773,53 +688,27 @@ function enviar_datos(formulario){
     if(i.files.length == 1){
       console.log("ine")    
     ine_nueva = respuesta.Ine  
-    ine = ine_nueva.split("/")
-    ine = "/" + ine[3] + "/" + ine[4] + "/" + ine[5] + "/" + ine[6] + "/" + ine[7] + "/" + ine[8] + "/" + ine[9] + "/" 
-    datos_nuevos.archivos[0].Ine = ine
+    datos_nuevos.archivos[0].Ine = ine_nueva
+    console.log(ine)
     }
 
     if(cd.files.length == 1){
-      console.log("Comporbante")    
-      comp_dom_nueva = respuesta.Comp_dom
-      comp_dom = comp_dom_nueva.split("/")
-      comp_dom = "/" + comp_dom[3] + "/" + comp_dom[4] + "/" + comp_dom[5] + "/" + comp_dom[6] + "/" + comp_dom[7] + "/" + comp_dom[8] + "/" + comp_dom[9] + "/";
-      datos_nuevos.archivos[0].Comp_dom = comp_dom
-      }
-
-    if(r.files.length == 1){
-      console.log("rfc") 
-      info3 = "RFC"   
-      rfc_nueva = respuesta.Rfc 
-      rfc = rfc_nueva.split("/")
-      rfc = "/" + rfc[3] + "/" + rfc[4] + "/" + rfc[5] + "/" + rfc[6] + "/" + rfc[7] + "/" + rfc[8] + "/" + rfc[9] + "/" 
-      datos_nuevos.archivos[0].Rfc = rfc    
+      console.log("Comprobante")    
+      datos_nuevos.archivos[0].Comp_dom = respuesta.Comp_dom
       }
   
-    if(ingreso.files.length == 1){
-      console.log("ingresos")    
-    ingresos_nueva = respuesta.Ingresos
-    ing = ingresos_nueva.split("/")
-    ing = "/" + ing[3] + "/" + ing[4] + "/" + ing[5] + "/" + ing[6] + "/" + ing[7] + "/" + ing[8] + "/" + ing[9] + "/" 
-    datos_nuevos.archivos[0].Ingresos = ing
+    if(ec.files.length == 1){
+      console.log("ingresos o estado de cuenta")    
+    datos_nuevos.archivos[0].Estado_cuenta = respuesta.Estado_cuenta
     }
 
-    if(e.files.length == 1){
-      console.log("Extras")    
-    e_nueva = respuesta.Extras
-    extra = e_nueva.split("/")
-    extra = "/" + extra[3] + "/" + extra[4] + "/" + extra[5] + "/" + extra[6] + "/" + extra[7] + "/" + extra[8] + "/" + extra[9] + "/" 
-    datos_nuevos.archivos[0].Extras = extra
+    if(escritura.files.length == 1){
+      console.log("Escrituras")    
+    datos_nuevos.archivos[0].Escrituras = respuesta.Escrituras
     }
 
-    if(rl.files.length == 1){
-      console.log("Recomendacion_laboral")    
-    rl_nueva = respuesta.Recomendacion_laboral
-    rln = rl_nueva.split("/")
-    rln = "/" + rln[3] + "/" + rln[4] + "/" + rln[5] + "/" + rln[6] + "/" + rln[7] + "/" + rln[8] + "/" + rln[9] + "/" 
-    datos_nuevos.archivos[0].Recomendacion_laboral = rln
-    }
 
-localStorage.setItem('data_inquilino', JSON.stringify(datos_nuevos));
+localStorage.setItem('data_fiador', JSON.stringify(datos_nuevos));
 alerta();
   })
   .catch(error => {

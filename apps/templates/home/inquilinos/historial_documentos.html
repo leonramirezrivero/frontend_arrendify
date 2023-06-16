@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Inquilinos - Documentos {% endblock %} 
+{% block title %} Inquilinos - Documentos - Detalles {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -9,7 +9,7 @@
 
 {% block content %}
 <body onload="obtenerInquilino()">
-<div id="li2" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
     <div class="d-block mb-4 mb-md-0" style="margin-left:10px">
         <h1 class="h1">Inquilinos</h>
         <p class="mb-0">Listado de inquilinos</p>
@@ -17,7 +17,7 @@
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="#" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center me-2">
             <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Nuevo Inquilino
+            Nuevo Arrendador
         </a>
     </div>
   </div>
@@ -107,70 +107,45 @@
    
 </div>
 
-<div class="modal fade" id="archivos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" style="height:15px" id="exampleModalLabel">Archivos Inquilino</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="location.href='/inquilinos/';" aria-label="Close"></button>
+
+
+
+{% comment %} ------------------------------------------------------------------------------------------------------ {% endcomment %}
+
+<!-- Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+  Abrir Modal
+</button>
+<div class="modal fade" id="archivos1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Archivos Inquilinos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="history.go(-1);"></button>
         </div>
-        <div class="modal-body" style="background:linear-gradient(0deg, #231942ff, #5e548eff, #9f86c0ff, #be95c4ff, #e0b1cbff);">
-            <body>
-                <div>
-                      <form class="formchido mt-4 " method="POST" enctype="multipart/form-data">
-                          <h2 class="h5 mb-3 mt-4">Por Favor Adjunte Sus Documentos Escaneados.</h2>
-                          <div class="row">
-                              <hr class="hr" />
-                            <div class="col border-end border-2">
-                                Nota: <strong><p>Todos los archivos deben de esta en formato .PDF </p></strong>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label>Inquilino: </label>
-                                <input id="inquilino" name="inquilino"  type="text" style="display:none"  readonly>
-                                <input class="form-control-plaintext card shadow border-1 ps-1" id="inquilino_nombre" type="text" value="{{ arrendador.nombre_notario_ac}}"  readonly>
-                            </div> 
-                        </div> 
-                        <hr class="hr" />
-                          <div class="mb-3">
-                              <label for="url_domicilio">Comprobante Domicilio.</label>
-                              <input class="form-control" id="Comp_dom" name="Comp_dom" accept="application/pdf" type="file" title="No mayor a 3 meses." data-bs-toggle="tooltip" data-bs-placement="top" >
-                          </div>
-                          <div class="mb-3">
-                              <label for="url_ine" class="form-label">Identificación Oficial Vigente (Pasaporte/INE/Cédula Profesional)</label>
-                              <input class="form-control"  id="Ine" name="Ine" accept="application/pdf" type="file" placeholder="URL">
-                          </div>
-                          <div class="mb-3">
-                              <label for="url_situacion_fiscal" class="form-label">Constancia de Situación Fiscal</label>
-                              <input class="form-control"  id="Rfc" name="Rfc" accept="application/pdf" type="file" placeholder="URL">
-                          </div>
-    
-                            <div class="mb-3" id="div-ingresos">
-                                <label for="url_situacion_fiscal" class="form-label">Comprobante De Ingreso (Recibos de nomina o Estados de cuenta)</label>
-                                <input class="form-control"  id="Ingresos" accept="application/pdf" name="Ingresos" type="file" placeholder="URL">
-                            </div>
-                            <div class="mb-3" id="div-crl">
-                                <label for="url_situacion_fiscal" class="form-label">Carta De Recomendacion Laboral</label>
-                                <input class="form-control"  id="Recomendacion_laboral" name="Recomendacion_laboral" accept="application/pdf" type="file" placeholder="URL">
-                            </div>
-                            <p>Nota. En caso que le soliciten subir un documento en especial, hagalo en este espacio</p>
-                            <div class="mb-3" id="div-extras">
-                                <label for="url_situacion_fiscal" class="form-label">Documentos Extra</label>
-                                <input class="form-control"  id="Extras" name="Extras" accept="application/pdf" type="file" placeholder="URL">
-                            </div>
-                         
-                          {% csrf_token %}
-                          <button type="submit" id="finalizar"  class="btn btn-primary">Subir Archivos</button>
-                      </form>
-                 
-                  </div>
-              </body>
+        <div class="card-body">
+            <div class="col-md-4 mb-3">
+                {% comment %} <label>Arrendador: </label>
+                <input id="arrendador_editar" name="arrendador_editar"  type="text" style="display:none"  readonly>
+                <input class="form-control-plaintext card shadow border-1 ps-1" id="arrendador_nombre" type="text" readonly> {% endcomment %}
+            </div> 
         </div>
+        <div class="modal-body">
+            <form id="editar_archivos">
+                <div class="row" id ="historial_documentos">
+                </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
+    .file-input {
+      display: none;
+    }
+    
     * {
         font-family: "Roboto";
     }
@@ -198,14 +173,12 @@
     table tr td {
         padding-top: 15px;            
     }
-    
-      
+   
 </style>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-
 
 {% block javascripts %}
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
@@ -224,9 +197,9 @@
 
     $(document).ready(function() {
        
-       $('#archivos').modal({ keyboard: false,backdrop: false })
+       $('#archivos1').modal({ keyboard: false,backdrop: false })
        
-       $('#archivos').modal('show');
+       $('#archivos1').modal('show');
       
 
     });
@@ -239,104 +212,98 @@ const configin = {
     },
   };
 
-
 const btnSubmit = document.getElementById("finalizar")
 btnSubmit.addEventListener("click", function (event) {
     event.preventDefault();
 
     var formData = new FormData();
+
     var fileInputElement1 = document.getElementById("Comp_dom")
     var fileInputElement2 = document.getElementById("Ine")
     var fileInputElement3 = document.getElementById("Rfc")
+
+    formData.append('ine', $('#Ine')[0].files[0]);
+    formData.append('comp_dom',$('#Comp_dom')[0].files[0])
+    formData.append('predial',$('#Rfc')[0].files[0])
+    formData.append('escrituras_titulo',$('#escrituras_titulo')[0].files[0])
+    //formDta.append('mobiliario', $('#mobiliario')[0].files[0])
+    //formData.append('escrituras_titulo', $('#escrituras_titulo')[0].files[0])
+    formData.append('arrendador',$('#arrendador_editar').val().trim())
+    console.log(fileInputElement2.files)
     
-    var ingreso = document.getElementById("Ingresos")
-    var extras = document.getElementById("Extras")
-    var rec_lab = document.getElementById("Recomendacion_laboral")
-
-    console.log("ingreso",ingreso.files[0])
-    console.log("extras",extras.files[0])
-    console.log("Recomendacion_laboral",rec_lab.files[0])
-
-    formData.append("Comp_dom", fileInputElement1.files[0]);
-    formData.append("Ine", fileInputElement2.files[0]);
-    formData.append("Rfc", fileInputElement3.files[0]);
-    formData.append("Ingresos", ingreso.files[0]);
-    formData.append("Extras", extras.files[0]);
-    formData.append("Recomendacion_laboral", rec_lab.files[0]);
-    formData.append("inquilino", document.getElementById("inquilino").value );
-    console.log(formData)
-    var next = true
-    if(fileInputElement1.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'Ine es obligatorio!'
-          })
-          next= false
-
+    if (fileInputElement2.files.length == 1){
+      console.log("Ine No esta vacio")
+      formData.append("Ine", fileInputElement2.files[0]);
+      enviar_datos(formData)
     }
-    if(fileInputElement2.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'Comprobante De Docmicilio es obligatorio!'
-          })
-          next= false
-
+    else{
+    console.log("Ine esta vacio")
+      //
     }
-    if(fileInputElement3.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'RFC es obligatorio!'
-          })
-          next= false
 
-    }
-   
-    if(next)enviar_datos(formData)
-    
 })
 
-async function enviar_datos(formulario){
-    const response = await axios.post(`${server}/documentos_reg/`,formulario,configin)
-    console.log("response",response)
-    Swal.fire({
-        icon: 'success',
-        title: 'Archivos Subidos!!',
-        text: 'Tus Documentos han sido subidos de manera correcta',
-    })
-    
-    setTimeout(() => {
-        window.location.href = `/inquilinos/`
-    }, "2000");
-    
-}
 
 
 function obtenerInquilino(){
-    var datos = JSON.parse( localStorage.getItem('data_inquilino'))
-    console.log(datos)
-    document.getElementById("inquilino").value = `${datos.id}`
-    document.getElementById("inquilino_nombre").value = `${datos.nombre} ${datos.apellido} ${datos.apellido1}`
-    // ocultar documentos para pf o para pm
-        if(datos.p_fom == "Persona Moral"){
-        document.getElementById("div-ingresos").style.display = 'none'
-        document.getElementById("div-crl").style.display = 'none'
-
-        }
-
-    } 
-
-</script>
-<script src="/static/assets/repositorios/loader.js"></script>
-<script>
-    document.getElementById("li2").onload = inicio()
-    function inicio(){
-         console.log("entro inicio")
-        auten()
-    }
+    var datos = JSON.parse(localStorage.getItem('historial_inquilinos'))
+    data_documentos = datos
+    console.log("historial_inquilinos",datos)
    
+    var historial_documentos_inquilino = datos.historial_documentos_inquilinos
+    console.log("Soy datos", historial_documentos_inquilino)
+    //console.log("Soy datos previos", historial_documentos_inquilino[0].previo_Ingresos)
+    //console.log("JSON.parse(", historial_documentos_arrendador.historial_documentos_arrendador[0].previo_ine)
+    html = ``;
+    if (historial_documentos_inquilino.length > 0){
+        for (var i = 0; i < historial_documentos_inquilino.length; i++){
+
+            if ( historial_documentos_inquilino[i].previo_Ingresos !== null){
+                var url = historial_documentos_inquilino[i].previo_Ingresos;
+                var nuevaUrl = url.replace("8001", "8001/static");
+                var fecha_actualizacion = historial_documentos_inquilino[i].fecha_actualizacion
+                var fa = fecha_actualizacion.split('T')
+                var f_hora =  fa[1].split('.')
+                fecha_actualizacion = fa[0] + " " + "a las " +" "+f_hora[0]
+                //console.log("Fecha actualizacion", fa[0] +" "+ f_hora[0])
+                html += `
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Ingresos</h5>
+                                <p>${fecha_actualizacion}</p>
+                                <div class="mb-3">
+                                    <a class="mt-1" id="link_cd" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 25px;">
+                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 90%;">
+                                            <iframe src="${nuevaUrl}" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                        </div>
+                                        <i class="bi bi-file-pdf" style="font-size: 4rem;"></i>
+                                            <p>Haz clic aquí para abrir el archivo</p>
+                                        <br>
+                                    </a>
+                                    <label for="exampleFormControlTextarea1" class="form-label">Comentarios</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        }
+    }else{
+       html += `<h5 class="card-title">No hay historial de ingresos</h5>`
+    }
+    $('#historial_documentos').html(html);
+
+    //var resultado = data_documentos[0].nombre !== ""
+    //                ? `${data_documentos[0].nombre} ${data_documentos[0].apellido} ${data_documentos[0].apellido1}`
+    //                : `${data_documentos[0].n_inmobiliaria}`;
+//
+    //document.getElementById("arrendador_nombre").value = resultado
+
+    // Si hay historial predial
+    
+} 
 </script>
 
 {% endblock javascripts %}
