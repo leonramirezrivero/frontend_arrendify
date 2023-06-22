@@ -48,8 +48,13 @@ urlpatterns = [
     path('documentos_fia/<int:id>', views.path_archivos_fia, name='archivos_fiador'),    
     path('det_documentos/<int:id>', views.path_detalles_archivos_fia, name='detalles_archivos_fiador'),
     # Validar arrendador
-    path('validar_arrendadores/', views.path_validar_arrendador, name='path_validar_arrendador'),
-    path('total_arrendadores/', views.path_total_arrendadores, name="path_total_arrendadores"),
+    path('validar_investigacion_arrendador/', views.path_validar_arrendador, name='validar_arrendador'),
+    path('investigacion_arrendadores/', views.path_total_arrendadores, name="investigacion_arrendadores"),
+    # Datos arrendamiento
+    path('datos_arrendamiento/', views.path_datos_arrendamiento, name="datos_arrendamiento"),
+    # ------------------------------------------------------
+    path('paginacion_busqueda/', views.path_datos_busqueda_paginacion, name="paginacion_busqueda"),
+
 
     path('tyc/', views.tyc, name='tyc'),
     

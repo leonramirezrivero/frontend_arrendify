@@ -307,6 +307,15 @@ input[type="file"] {
     #exampleModalLabel-mobiliario {
         color: #fff;
     }
+
+#id_investigacion {
+  max-width: 80px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+    
 </style>
 {% endblock stylesheets %}
 
@@ -336,7 +345,8 @@ input[type="file"] {
                       <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                   </svg>
               </span>
-              <input type="text" class="form-control" placeholder="Buscar por Nombre">
+              <input type="text" class="form-control" id="usuario_buscar" placeholder="Buscar por Nombre">
+              <button class="btn form-btn" onclick="buscar()">Buscar</button>
             </div>
             <select class="form-select fmxw-200 d-none d-md-inline" aria-label="Message select example 2">
                 <option selected>Todos</option>
@@ -348,12 +358,12 @@ input[type="file"] {
     </div>
 </div>
 <div class="card card-body shadow border-0 table-wrapper table-responsive"><!-- podemos agregar la clase => table-responsive-->
-    <table class="table user-table table-hover align-items-center mb-5" id="tabla_datos_inmuebles"> <!--id="datatable"-->
+    <table class="table user-table table-hover align-items-center mb-5" id="tabla_datos_inmuebles">
         <thead>
             <tr >
-                <th class="border-bottom"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
+                <th class="border-bottom" id="id_investigacion">ID Investigación</th>
                 <th class="border-bottom">Nombre del prospecto</th>
-                <th class="border-bottom">Regimen</th>						
+                <th class="border-bottom">Regimen Fiscal</th>						
                 <th class="border-bottom">Estatus del Arrendador</th>
                 <th class="border-bottom">Documentos</th>
                 <th class="border-bottom">Comentarios</th>
@@ -482,24 +492,42 @@ const headers_globales_ajax = {
 document.getElementById("cargar_tabla").onload = tabla()
 console.log("Esta cargando tabla");
 // Comenzamos funciones
-    function tabla(){
-        
+
+function buscar() {
+    var tablaElemento = document.getElementById("tabla_datos_inmuebles");
+    tablaElemento.innerHTML = `<thead>
+            <tr>
+                <th class="border-bottom" id="id_investigacion">ID Investigación</th>
+                <th class="border-bottom">Nombre del prospecto</th>
+                <th class="border-bottom">Regimen</th>						
+                <th class="border-bottom">Estatus del Arrendador</th>
+                <th class="border-bottom">Documentos</th>
+                <th class="border-bottom">Comentarios</th>
+                <th class="border-bottom"></th>
+            </tr>
+        </thead>
+        <tbody style="overflow-x: hidden;" id="table_body">
+            
+        </tbody>`;
+    var valorBusqueda = document.getElementById("usuario_buscar").value;
+    tabla(valorBusqueda);
+}
+
+    function tabla(usuario){
+        console.log("Soy id", usuario);
+        url = usuario !== undefined ? `${server}/listar_documentos/buscar/?search=${usuario}` : `${server}/listar_documentos/`;
+        console.log("Soy url", url)   
         console.log("Esta cargando tabla")
-        axios.get(`${server}/listar_documentos/`,configin)
+        axios.get(url, configin)
             .then(function (response) { 
             data_arrendador = response.data
             // manejar respuesta exitosa
-            console.log("Respuesta arrendador", response.data)
-            for (let i = 0; i < data_arrendador.length; i++)
-            {
-                console.log("for",data_arrendador[i].user)
-            }
-
             var cuerpo = document.getElementById("table_body")
             let res = response.data
             var iframe = document.getElementById('iframe_escrituras')
             //console.log(re)
             //iframe.src = res[0].arrendador[0].ine;
+            var num = 1;
             if(res.length > 0 ){
                 console.log("res",res)
     
@@ -516,11 +544,17 @@ console.log("Esta cargando tabla");
                     check.setAttribute("type","checkbox");
                     check.setAttribute("class","form-check-input");
 
-                    col1.appendChild(check);
+                    col1.innerHTML = `<div class="row justify-content-center">
+                                            <div class="col-md-2 text-center">
+                                                <a>${num}</a>
+                                            </div>
+                                        </div>
+                                        `;
+                                                
                     col2.innerHTML = `<a class="d-flex align-items-center" id="nombre_prospecto">
-                                    <div class="d-block">
-                                        <span class="fw-bold"> ${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria} </span>
-                                    </div>
+                                        <div class="d-block">
+                                            <span class="fw-bold"> ${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria} </span>
+                                        </div>
                                     </a>
                                             `
                     col3.innerHTML = `<a class="d-flex align-items-center">
@@ -580,6 +614,7 @@ console.log("Esta cargando tabla");
                     tr.appendChild(col5);
                     tr.appendChild(col6);
                     cuerpo.appendChild(tr);
+                    num += 1;
                 }
                     console.log(response);
             } else{

@@ -636,16 +636,17 @@ function obtenerInquilino(){
             
     
     comp = data_documentos[0].arrendador[0].comp_dom
-    comp = `${server}/static${comp}`
+    //console.log("soy comp", comp)
+    //comp = `${server}/static${comp}`
   
     ine = data_documentos[0].arrendador[0].ine
-    ine = `${server}/static${ine}`
+    //ine = `${server}/static${ine}`
     
     predial = data_documentos[0].arrendador[0].predial
-    predial = `${server}/static${predial}`
+    //predial = `${server}/static${predial}`
 
     escrituras = data_documentos[0].arrendador[0].escrituras_titulo
-    escrituras = `${server}/static${escrituras}`
+    //escrituras = `${server}/static${escrituras}`
     
     document.getElementById("link_cd").href = comp;
     document.getElementById("link_ine").href = ine;

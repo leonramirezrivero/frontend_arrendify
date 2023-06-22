@@ -847,13 +847,13 @@ var img_eli = {
         if(data.total_imagenes == 1)
             im += `<div id="img"class="col-md-4 mb-2">
                 <br>
-                <img src="http://192.168.2.14:8001//static${url}" class="imagen" style="width:50%;height:50%;"" />
+                <img src="${url}" class="imagen" style="width:50%;height:50%;"" />
                 </div>`
         else
             im+=`<div id="img"class="col-md-4 mb-2">
                 <br>
                 <input type="checkbox" name="{{ objin.imagenes }}" value="${id}" />
-                <img src="http://192.168.2.14:8001//static${url}" class="imagen" style="width:50%;height:50%;"" />
+                <img src="${url}" class="imagen" style="width:50%;height:50%;"" />
                 </div>`
     }
 

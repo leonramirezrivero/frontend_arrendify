@@ -444,6 +444,7 @@ document.getElementById("carga_plantar").onload  = plantar();
                     <tbody>
                 `
     var contador = 1;
+    if (mobiliario !== undefined && mobiliario !== null && mobiliario !== ""){
     mobiliario.forEach(function(item) {
         for (var key in item) {
             var value = item[key];
@@ -461,6 +462,7 @@ document.getElementById("carga_plantar").onload  = plantar();
             }
         }
 });
+    }
 
 tabla += `</tbody></table>`;
 $('#table_mobiliaria').html(tabla);
@@ -529,22 +531,22 @@ $('#table_mobiliaria').html(tabla);
         console.log("Soy url men",url)
         if(i === 0)
             im += `<div class="carousel-item active">
-                    <img src="http://192.168.2.14:8001/static${url}" class="rounded mx-auto d-block custom-size">
+                        <img src="${url}" class="rounded mx-auto d-block custom-size">
                     </div>`
         else
-            im+=`<div class="carousel-item">
-                    <img src="http://192.168.2.14:8001/static${url}" class="rounded mx-auto d-block custom-size">
-                </div>`
+            im += ` <div class="carousel-item">
+                        <img src="${url}" class="rounded mx-auto d-block custom-size">
+                    </div>`
     }
 
-    im += `<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
+    im += `     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>`
 
 $('#plantar_imagenes').html(im);
@@ -554,8 +556,6 @@ $('#plantar_imagenes').html(im);
     var renta = document.getElementById("rentado_antes");
     var arre = document.getElementById("arren");
     var bot = document.getElementById("but_arren");
-
-
     //   console.log(radio.value)
 
     const checkboxes = document.querySelectorAll('input[type="checkbox"][value="Si"]');
@@ -605,11 +605,6 @@ $('#plantar_imagenes').html(im);
     //localStorage.removeItem('data_inquilino')
     //console.log("limpio",localStorage)
 }
-
-
-
-
-
 
 </script>
 

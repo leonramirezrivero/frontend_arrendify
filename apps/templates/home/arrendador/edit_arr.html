@@ -1182,6 +1182,7 @@ const configin = {
 
 const csrftoken = document.cookie.match(/csrftoken=(\w+)/)[1];
 axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
+{% comment %} const server = 'http://192.168.2.14:8001' {% endcomment %}
 const server = 'http://192.168.2.14:8001'
 const configin = {
     headers: {
@@ -1310,28 +1311,6 @@ const btnSubmit = document.getElementById("finalizar1")
 btnSubmit.addEventListener("click", function (event) {
     event.preventDefault();
     console.log("Editar jojojo")
-    //datos = JSON.parse( localStorage.getItem('data_arrendador'))
-    //enviar_datos(datos)
-    //setTimeout(() => {
-        //window.location.href = '/arrendador/'
-   // }, "3000");
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
-
     var pmoi = document.getElementById("pmoi").value
     console.log("Soy valor pmoi", datos[0].pmoi)
     console.log("datos", datos)
@@ -1346,19 +1325,6 @@ const csrftoken = getCookie('csrftoken');
         data: JSON.stringify(datos[0]),
       success: function(response) {
         console.log(response); // handle the response from the server
-        //location.reload()
-        //Swal.fire({
-        //            icon: 'success',
-        //            title: '¡Editado correctamente!',
-        //            text: 'Se edito correctamente.',
-        //            showConfirmButton: false,
-        //            timer: 1500
-        //        }, 2000).then(() => {
-        //                    //localStorage.removeItem('data_arrendador');
-        //                    //window.location = '/arrendador/';
-        //                }).catch((error)=>{
-        //                    console.error(error);
-        //                });
             setTimeout(() => {
                 window.location.href = '/arrendadores/'
             }, "2000");

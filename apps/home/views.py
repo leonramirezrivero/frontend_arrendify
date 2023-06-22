@@ -127,7 +127,6 @@ def path_documentos_arrendador_detalles(request):
     return render(request, 'home/archivos_arrendador/detalles_documentos.html',{    
     })
 
-
 def path_documentos_arrendador_detalles_nuevo_template(request):
     return render(request, 'home/arrendador/detalles_archivos.html',{    
     })
@@ -142,11 +141,20 @@ def path_documentos_arrendador_ver_historial(request, slug):
 
 # Path validar arrendador
 def path_total_arrendadores(request):
-    return render(request, 'home/validacion_arrendador/total_arrendadores_validar.html',{    
+    # return render(request, 'home/validacion_arrendador/total_arrendadores_validar.html',{ investigacion 
+    return render(request, 'home/validacion_arrendador/investigacion.html',{   
 })
 
 def path_validar_arrendador(request):
-    return render(request, 'home/validacion_arrendador/validar_arrendador.html',{    
+    return render(request, 'home/validacion_arrendador/validar_investigacion.html',{    
+})
+
+def path_datos_busqueda_paginacion(request):
+    return render(request, 'home/validacion_arrendador/total_arrendadores_validar.html',{    
+})
+
+def path_datos_arrendamiento(request):
+    return render(request, 'home/datos_arrendamiento/datos_arren.html',{    
 })
 
 
@@ -155,7 +163,6 @@ def pages(request):
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
     try:
-
         load_template = request.path.split('/')[-1]
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))

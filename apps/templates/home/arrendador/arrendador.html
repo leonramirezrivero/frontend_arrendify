@@ -516,7 +516,7 @@ input[type="file"] {
                         <div id="persona_moral_registro_1" class="needs-validation" style="Display:none;">
                             <div class="input-text" id="div_dir_ac">
                                 <div class="input-div">
-                                    <input type="text" name="dir_ac" id="dir_ac" oninput="prueba2(this)" 
+                                    <input type="text" name="dir_ac" id="dir_ac" oninput="prueba2(this)"> 
                                     <span>Dirección Registrada en el acta constitutiva:</span>
                                 </div>
                             </div>
@@ -1078,8 +1078,8 @@ input[type="file"] {
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %} 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="/static/assets/js/ms_arr.js"></script>
 <script src="/static/assets/js/phone.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
@@ -1574,13 +1574,14 @@ localStorage.removeItem('data_arrendador')
 
 
 const server = 'http://192.168.2.14:8001'
+{% comment %} const server = 'https://arrendify-api.onrender.com' {% endcomment %}
 const configin = {
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': `Token ${localStorage.getItem('token')}`
     },
-  };
+};
       // Despues carcamos la tabla de usuarios
 
 const headers_globales_ajax = {
@@ -1592,6 +1593,8 @@ const headers_globales_ajax = {
 document.getElementById("cargar_tabla").onload = tabla()
 // Comenzamos funciones
     function tabla(){
+        var url = `${server}/listar_documentos/`;
+        
         var option = document.getElementById("opt");
         option.selected = true;
         var form = document.getElementById("Formu");
@@ -1638,24 +1641,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                                     </a>`
                     col4.innerHTML = `<span class="fw-normal ">${res[i].created}</span>`
                     col5.innerHTML = `<span class="fw-normal ">${res[i].pmoi}</span>`
-                    col6.innerHTML = `${res[i] && res[i].arrendador && res[i].arrendador[0] ? `
-                                        {% comment %} <a id="ver_documentos" class="d-flex align-items-center btn btn-primary" onClick="guardar_datos_data('${res[i].slug}')";>
-                                            Ver documentos
-                                        </a> {% endcomment %}
-                                        {% comment %} <button id="ver_documentos" type="button" class="btn btn-primary px-3 custom-btn" data-tooltip="Ver documentos" onClick="guardar_datos_data('${res[i].slug}')";>
-                                            <i class="far fa-eye"></i>
-                                        </button> {% endcomment %}
-                                        {% comment %} <button type="button" class="btn btn-elegant">
-                                            <i class="material-icons align-middle" style="color: black;">add</i>
-                                            Ver documentos
-                                        </button> {% endcomment %}
-                                        
-                                        {% comment %} <button type="button" class="btn btn-success px-3" title="Ver historial" data-bs-toggle="tooltip" id="btn-tooltip">
-                                            <i class="far fa-eye" aria-hidden="true"></i>
-                                        </button> {% endcomment %}
-                                        {% comment %} <button type="button" class="btn btn-primary rounded-circle px-3 custom-btn">
-                                                <i class="fas fa-upload"></i>
-                                        </button> {% endcomment %}
+                    col6.innerHTML = `${res[i] && res[i].arrendador && res[i].arrendador[0] ? `                                        
                                         <button type="button" class="btn btn-primary" data-tooltip="Ver documentos" onClick="guardar_datos_data('${res[i].slug}')";>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                                             <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
@@ -1666,9 +1652,6 @@ document.getElementById("cargar_tabla").onload = tabla()
                                         
                                     `
                                     : `
-                                        {% comment %} <button type="button" class="btn btn-primary rounded-circle px-3 custom-btn" data-tooltip="Agregar documentos" data-bs-toggle="modal" data-bs-target="#archivos_arrendador" onClick="colocar_id('${res[i].id}', '${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria}')">
-                                            <i class="fas fa-file-upload"></i>
-                                        </button> {% endcomment %}
                                        <button type="button" class="btn btn-primary" data-tooltip="Agregar documentos" data-bs-toggle="modal" data-bs-target="#archivos_arrendador" onClick="colocar_id('${res[i].id}', '${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria}')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                                                 <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
@@ -1682,20 +1665,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                                         
                                     `;
 
-                    col7.innerHTML = `${res[i].estatus_arrendador === "En espera" ? `<select id="${res[i].slug}" disabled style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
-                                            <option value="Activo" selected style="color:green; font-weight:bold;"><span >Activo</span></option>
-                                            <option value="En espera" selected style="color:orange; font-weight:bold;">En espera</option>
-                                            <option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option>
-                                            </select>` : (res[i].estatus_arrendador === "Rechazado" ? `<select disabled id="${res[i].slug}" style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
-                                                <option value="Activo"  style="color:green; font-weight:bold;"><span >Activo</span></option>
-                                                <option value="En espera" style="color:orange; font-weight:bold;">En espera</option>
-                                                <option value="Rechazado" selected style="color:red; font-weight:bold;">Rechazado</option>
-                                            </select>` : `<select id="${res[i].slug}" disabled style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
-                                                <option value="Activo"  selected style="color:green; font-weight:bold;"><span >Activo</span></option>
-                                                <option value="En espera" style="color:orange; font-weight:bold;">En espera</option>
-                                                <option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option>
-                                            </select>`)}`
-
+                    col7.innerHTML = ' <select id="status{{inq.id}}" style="color:green; font-weight:bold;" class="form-select" onChange="cambio_status(this)" aria-label="Default select example"><option value="Activo" selected style="color:green; font-weight:bold;"><span >Activo</span></option><option value="En espera" style="color:orange; font-weight:bold;">En espera</option><option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option></select>'
                     col8.innerHTML =   `${res[i] && res[i].arrendador && res[i].arrendador[0] ? `<div class="btn-group dropstart">
                                         <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
@@ -1730,14 +1700,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                                             <a class="dropdown-item d-flex align-items-center" onClick="alert0('${res[i].slug}')">
                                                 <svg class="icon icon-xs text-danger ms-1" title="Eliminar" data-bs-toggle="tooltip" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
                                                 &nbsp;Borrar Arrendador
-                                            </a>
-                                            
-                                    {% comment %} <a class="dropdown-item d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick="colocar_id('${res[i].id}')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-xs" viewBox="0 0 24 24">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2" fill="green"/>
-                                        </svg>
-                                        &nbsp;Añadir documentos
-                                    </a>{% endcomment %}
+                                            </a>                                    
                                         </div>   
                                         </div>`}`; 
                     tr.appendChild(col1);
@@ -1766,22 +1729,6 @@ document.getElementById("cargar_tabla").onload = tabla()
 }
 
 function editar(slug){
-function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
     $.ajax({
         type: 'GET',
         url: `${server}/Arrendador_Api/${slug}/`,
@@ -1803,7 +1750,7 @@ function getCookie(name) {
 }
 
   // function registro
-const btnSubmit = document.getElementById("finalizar1")seti
+const btnSubmit = document.getElementById("finalizar1")
 let formulario = {};
 
 btnSubmit.addEventListener("click", function (event) {
@@ -1848,7 +1795,6 @@ async function eliminar(slug){
             // manejar respuesta exitosa
             console.log("eliminado exitosamente")
             console.log(response);
-
         })
         .catch(function (error) {
         // manejar error
@@ -1896,7 +1842,7 @@ function guardar_datos_data(slug){
             window.location.href = `../documentos_detalles/${slug}/`;
         },
         error: function(response) {
-            console.log(response); // handle any errors from the server
+            console.log(response);
         }
     });
 }
@@ -1923,17 +1869,17 @@ formRegistroArchivos.addEventListener("submit", function(event) {
     if (formRegistroArchivos.checkValidity()) {
         // El formulario es válido, puedes enviarlo
         const formData = new FormData();
-        formData.append('ine', $('#ine')[0].files[0]);
-        formData.append('comp_dom',$('#comp_dom')[0].files[0])
-        formData.append('predial',$('#predial')[0].files[0])
-        formData.append('escrituras_titulo',$('#escrituras_titulo')[0].files[0])
-        formData.append('arrendador',$('#id_arrendador').val().trim())
-        console.log("Soy id arrendador", $('#id_arrendador').val().trim())
-        formData.forEach(function(value, key) {
-            console.log(key + ': ' + value);
-        });
-        console.log("Antes de enviar", formData)
-        localStorage.removeItem('datos')
+            formData.append('ine', $('#ine')[0].files[0]);
+            formData.append('comp_dom',$('#comp_dom')[0].files[0])
+            formData.append('predial',$('#predial')[0].files[0])
+            formData.append('escrituras_titulo',$('#escrituras_titulo')[0].files[0])
+            formData.append('arrendador',$('#id_arrendador').val().trim())
+            console.log("Soy id arrendador", $('#id_arrendador').val().trim())
+            formData.forEach(function(value, key) {
+                console.log(key + ': ' + value);
+            });
+            console.log("Antes de enviar", formData)
+            localStorage.removeItem('datos')
         $.ajax({
                 type: 'POST',
                 url: `${server}/documentos_arrendador/`,
@@ -2108,16 +2054,7 @@ inputElement.addEventListener("input", function(event) {
     // Update the input value
     inputElement.value = limitedValue;
 });
- {% comment %} $(document).ready(function() {
-    $('#email').on('input', function() {
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (this.checkValidity()) {
-            $(this).removeClass('is-invalid');
-        } else {
-            $(this).addClass('is-invalid');
-        }
-    });
-  }); {% endcomment %}
+
 
 function verificarInputs() {
     $('input[required]').each(function() {
