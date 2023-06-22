@@ -233,8 +233,12 @@
 const btnSubmit = document.getElementById("guardar")
 let formulario = {};
 
-btnSubmit.addEventListener("click", function (event) {
+btnSubmit.addEventListener("click", (event) => {
     event.preventDefault();
+    guardarDatosValidacion();
+})
+
+const obtenerDatos = () =>{
     const formData = new FormData();
     formData.append('estatus_documentos',$('#estatus_documentos').val().trim())
     formData.append('validacion_ine',$('#select1').val().trim())
@@ -242,26 +246,28 @@ btnSubmit.addEventListener("click", function (event) {
     formData.append('validacion_escrituras',$('#select3').val().trim())
     formData.append('validacion_predial',$('#select4').val().trim())
     formData.append('comentarios',$('#comentarios').val().trim())
+    return formData;
+}
 
-    enviar_datos(formData)
-    //formData.forEach(function(value, key) {
-    //    console.log(key, value);
-    //});
+const guardarDatosValidacion = async () =>{
+    const formData = obtenerDatos(); 
+    await enviarDatosServidorValidacion(formData);
+        Swal.fire(
+            'Excelente!',
+            'Cambios realizados correctamente!',
+            'success'
+        ).then(()=>{
+            window.location.href="/investigacion_arrendadores/";
+        });
+}
 
-    setTimeout(() => {
-        window.location.href="/investigacion_arrendadores/"
-    }, "2500");
-   
-})
-
-async function enviar_datos(formulario){
-    const response = await axios.put(`${server}/listar_documentos/${datos.id}/`,formulario, configin)
-    console.log("response",response)
-    Swal.fire(
-        'Excelente!',
-        'Cambios realizados correctamente!',
-        'success'
-    )
+async function enviarDatosServidorValidacion(formulario){
+    try{
+        const response = await axios.put(`${server}/listar_documentos/${datos.id}/`,formulario, configin)
+        console.log("response",response)
+    }catch(error){
+        console.log(error);
+    }
 }
 
 </script>

@@ -692,6 +692,13 @@
 
 <script>
     const server = 'http://192.168.2.14:8001'
+    const configin = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        },
+      };
 
     $(function () {
         $("form").keypress(function (e) {
@@ -716,7 +723,7 @@ $(document).ready(function() {
 </script>
 
 <script>
-function getCookie(name) {
+{% comment %} function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
@@ -749,7 +756,23 @@ $(document).ready(function() {
             });
         }
     });
-});
+}); {% endcomment %}
+
+const getArrendadores = () => axios.get(`${server}/arrendadores_campos_establecidos/`, configin);
+
+getArrendadores()
+    .then((response) =>{
+        console.log("Si esta llegando a obtener datos inmueble");
+        var data = response.data;
+        $.each(data, function(index, item){
+            if(item.nombre === "")
+                $('#arrendador').append('<option value="' + item.id + '">' + item.custom_field + '</option>');
+            else
+                $('#arrendador').append('<option value="' + item.id + '">' + item.nombre + " "+ item.apellido + " " + item.apellido1 +'</option>');
+        });
+    }).catch((error) =>{
+        console.log(error);
+    })
 
 
 $(document).ready(function() {
@@ -918,7 +941,7 @@ $('#img_row').html(im);
 </script>
 
 <script>
-$(document).ready(function() {
+{% comment %} $(document).ready(function() {
   $('#Formu').submit(function(e) {
     function getCookie(name) {
     let cookieValue = null;
@@ -1055,7 +1078,122 @@ formData.append('eliminar_imagenes',JSON.stringify(img_eli))
       }
     });
   });
+}); {% endcomment %}
+
+
+const submit_put = document.getElementById("Formu");
+
+submit_put.addEventListener("submit", function (event) {
+    event.preventDefault();
+    editarDatosInmueble();
 });
+
+
+function editarDatosInmueble(){
+    const formData = new FormData();
+    formData.append('imagenes', $('#imagenes')[0].files[0]);
+    formData.append('id',$('#id').val().trim())
+    formData.append('alias_inmueble',$('#alias_inmueble').val().trim())
+    formData.append('estatus_inmueble',$('#estatus_inmueble').val().trim())
+    formData.append('renta',$('#renta').val().trim())
+    formData.append('venta',$('#venta').val().trim())
+    formData.append('clave_catastral',$('#clave_catastral').val().trim())
+    formData.append('estatus_gravamen',$('#estatus_gravamen').val().trim())
+    formData.append('valor_catastral',$('#valor_catastral').val().trim())
+    formData.append('cuota_mantenimiento',$('#cuota_mantenimiento').val().trim())
+    formData.append('tipo_inmueble',$('#tipo_inmueble').val().trim())
+    formData.append('uso_inmueble',$('#uso_inmueble').val().trim())
+    formData.append('op_compra',$('#op_compra').val().trim())
+    formData.append('municipio_alcaldia',$('#municipio_alcaldia').val().trim())
+    formData.append('colonia',$('#colonia').val().trim())
+    formData.append('postal_code',$('#postal_code').val().trim())
+    formData.append('estado',$('#estado').val().trim())
+    formData.append('calle',$('#calle').val().trim())
+    formData.append('numeroExterior',$('#numeroExterior').val().trim())
+    formData.append('numeroInterior',$('#numeroInterior').val().trim())
+    formData.append('calle1',$('#calle1').val().trim())
+    formData.append('calle2',$('#calle2').val().trim())
+    formData.append('referencias',$('#referencias').val().trim())
+    formData.append('n_baños',$('#n_baños').val().trim())
+    formData.append('n_medios_baños',$('#n_medios_baños').val().trim())
+    formData.append('n_recamaras',$('#n_recamaras').val().trim())
+    formData.append('n_pisos',$('#n_pisos').val().trim())
+    formData.append('estacionamiento_cajones',$('#estacionamiento_cajones').val().trim())
+    formData.append('terrenoConstruido',$('#terrenoConstruido').val().trim())
+    formData.append('terrenoTotal',$('#terrenoTotal').val().trim())
+    formData.append('año_contruccion',$('#año_contruccion').val().trim())
+    formData.append('garage',$('#garage').val().trim())
+    formData.append('bodega',$('#bodega').val().trim())
+    formData.append('terraza',$('#terraza').val().trim())
+    formData.append('alberca',$('#alberca').val().trim())
+    formData.append('cocina',$('#cocina').val().trim())
+    formData.append('amueblado',$('#amueblado').val().trim())
+    formData.append('cuarto_lavado',$('#cuarto_lavado').val().trim())
+    formData.append('gym',$('#gym').val().trim())
+    formData.append('bar',$('#bar').val().trim())
+    formData.append('restaurante_bar',$('#restaurante_bar').val().trim())
+    formData.append('sala_cine',$('#sala_cine').val().trim())
+    formData.append('salon_estudio',$('#salon_estudio').val().trim())
+    formData.append('area_comun',$('#area_comun').val().trim())
+    formData.append('sala_juegos',$('#sala_juegos').val().trim())
+    formData.append('salon_eventos',$('#salon_eventos').val().trim())
+    formData.append('espacio_deportivo',$('#espacio_deportivo').val().trim())
+    formData.append('busisness_center',$('#busisness_center').val().trim())
+    formData.append('roof_garden',$('#roof_garden').val().trim())
+    formData.append('otroA',$('#otroA').val().trim())
+    formData.append('internet',$('#internet').val().trim())
+    formData.append('electricidad',$('#electricidad').val().trim())
+    formData.append('agua_potable',$('#agua_potable').val().trim())
+    formData.append('televisionCable',$('#televisionCable').val().trim())
+    formData.append('gas',$('#gas').val().trim())
+    formData.append('lineaTelefonica',$('#lineaTelefonica').val().trim())
+    formData.append('drenaje',$('#drenaje').val().trim())
+    formData.append('seguridad',$('#seguridad').val().trim())
+    formData.append('camarasSeguridad',$('#camarasSeguridad').val().trim())
+    formData.append('area_juegos',$('#area_juegos').val().trim())
+    formData.append('otroS',$('#otroS').val().trim())
+    formData.append('descripcion',$('#descripcion').val().trim())
+    slug = document.getElementById("slug").value;
+    formData.append('arrendador',$('#arrendador').val().trim())
+    formData.append('reglamento_interno',$('#reglamento_interno')[0].files[0])
+    formData.append('mobiliario',$('#mobiliario')[0].files[0])
+    formData.append('id',$('#id').val().trim())
+
+    console.log($('#arrendador').val().trim())
+        
+    console.log("Imagenes a eliminar")
+    formData.append('eliminar_imagenes',JSON.stringify(img_eli))
+
+    
+    editarDatosInmueble_(formData, slug)
+        .then(() => {
+            Swal.fire({
+                    icon: 'success',
+                    title: '¡Editado correctamente!',
+                    text: 'Se edito de forma correcta.',
+                    showConfirmButton: false,
+                    timer: 1300
+                }).then(() => {
+                    window.location = '/inmuebles/';
+                })
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+}
+
+
+const editarDatosInmueble_ = (data, slug) => {
+    // return new Promise((resolve, reject) => {  //Asi se envia una promesa, pero se simplifica ya que axios devuelve una promesa
+        return axios.put(`${server}/inmuebles_viewset/${slug}/`, data, {
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            },
+                mode: 'same-origin',
+                processData: false,
+                contentType: false
+            });
+}
 
 </script>
 

@@ -680,68 +680,45 @@ function obtenerInquilino(){
     
 } 
 
+const editarArchivosArrendador = async(formulario) =>{
+    try{
+        var data = localStorage.getItem('data_arrendador');
+        var data = JSON.parse(data);
+        var id = data[0].arrendador[0].id;
+        console.log("id", id);
+        const response = await axios.put(`${server}/HistorialDocumentosArrendadorViewSet/${id}/`, formulario, configin);
+        console.log("response", response);
+
+        return response;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+
 
 function enviar_datos(formulario){
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
-
-    console.log("Esta entrando a editar archivos")
-    console.log("Soy formulario", formulario)
-    var data = localStorage.getItem('data_arrendador');
-    var data = JSON.parse(data);
-    console.log("Soy data", data[0].arrendador[0].predial)
-    console.log("Soy formulario", formulario)
-    var id = data[0].arrendador[0].id;
-        $.ajax({
-            type: 'PUT',
-            url: `${server}/HistorialDocumentosArrendadorViewSet/${id}/`,
-            headers: { 'X-CSRFToken': csrftoken },
-            mode: 'same-origin',
-            data: formulario,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                console.log("Esta llegando a editar");
-                console.log(response);
-                Swal.fire({
+    editarArchivosArrendador(formulario)
+        .then((response) =>{
+            console.log(response);
+            Swal.fire({
                 icon: 'success',
                 title: '¡Editado correctamente!',
                 text: 'Se editó correctamente.',
                 showConfirmButton: false,
                 timer: 1500
-                }).then(() => {
-                    var form = document.getElementById("editar_archivos")
-                    form.reset()
-                    window.location.href = `/arrendadores/`
-                    //location.reload();
-                }).catch((error) => {
-                    console.error(error);
-                });
-            },
-            error: function(response) {
-                console.log(response);
-            }
-        }).catch(error => {
-              console.error(error);
-        });
+            }).then(() => {
+                var form = document.getElementById("editar_archivos");
+                form.reset();
+                window.location.href = '/arrendadores/';
+            }).catch((error) => {
+            console.error(error);
+            });
+        }).catch((error) =>{
+            console.log(error);
+        })
+
 }
-
-
-
 
 function ver_historial(id, archivo){
     function getCookie(name) {
@@ -778,7 +755,6 @@ const csrftoken = getCookie('csrftoken');
             console.log(response);
         }
     });
-
 }
 
 </script>

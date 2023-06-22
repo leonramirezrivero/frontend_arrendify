@@ -288,6 +288,71 @@ input[type="file"] {
       align-items: center;
     }
 
+/*Tabla arrendadores*/
+#tabla_datos_arrendador {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    #tabla_datos_arrendador caption {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    #tabla_datos_arrendador thead {
+        background-color: #231942;
+        color: #fff;
+    }
+
+    #tabla_datos_arrendador th,
+    #tabla_datos_arrendador td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+    }
+
+    #tabla_datos_arrendador th {
+        font-weight: bold;
+    }
+
+    #tabla_datos_arrendador tbody tr:hover {
+        background-color: #f2f2f2;
+        cursor: pointer;
+    }
+
+/*  ---------------- Boton container ----------------*/
+
+.button-container {
+  margin-top: 10px;
+}
+
+.button-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 15px;
+  background-color: #14a44d; /* Color personalizado */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 12px; /* Tamaño de fuente reducido */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #14a44d; /* Color personalizado en hover */
+}
+
+.btn-color {
+  background-color: #14a44d; /* Color personalizado */
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: #fff;
+}
+
 
 </style>
 {% endblock stylesheets %}
@@ -330,14 +395,14 @@ input[type="file"] {
     </div>
 </div>
 <div class="card card-body shadow border-0 table-wrapper table-responsive"><!-- podemos agregar la clase => table-responsive-->
-    <table class="table user-table table-hover align-items-center mb-5"> <!--id="datatable"-->
+    <table class="table user-table table-hover align-items-center mb-5" id="tabla_datos_arrendador"> <!--id="datatable"-->
         <thead>
             <tr >
                 <th class="border-bottom"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
                 <th class="border-bottom">ID</th>
                 <th class="border-bottom">Nombre</th>						
                 <th class="border-bottom">Fecha de Registro</th>
-                <th class="border-bottom">RF/Inmobilliaria</th>
+                <th class="border-bottom">Regimen Fiscal</th>
                 <th class="border-bottom">Archivos</th>
                 <th class="border-bottom">Estatus</th>
                 <th class="border-bottom">Acción</th>
@@ -1493,7 +1558,7 @@ function mostrarOnChange() {
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
-function alert0(inquilino){
+function eliminarArrendador_(inquilino){
         console.log("soy el inquilino",inquilino)
         Swal.fire({
             title: '¿Éstas seguro?',
@@ -1509,17 +1574,19 @@ function alert0(inquilino){
         if (result.isConfirmed) {
             setTimeout(function(){
                 console.log("Hola Mundo");
-                eliminar(inquilino)
+                eliminarArrendador(inquilino)
             }, 1500);
-            Swal.fire({
+                Swal.fire({
                     icon: 'success',
                     title: '¡Arrendador Eliminado!',
-                    text: 'Se ha elimando de forma exitosa.',
+                    text: 'Se ha eliminando de forma exitosa.',
                     showConfirmButton: false,
                     timer: 1500
                 })
-                }
-            //location.reload()
+                //.then(()=>{
+                //    location.reload();
+                //})
+            }
         })
     }
         function alert1(){
@@ -1569,7 +1636,7 @@ document.getElementById("li1").onload = auten()
 const csrftoken = document.cookie.match(/csrftoken=(\w+)/)[1];
 axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
 localStorage.removeItem('data_arrendador')
-    var data_arrendador =[]
+var data_arrendador =[]
 // Configuracion general de axios
 
 
@@ -1584,10 +1651,13 @@ const configin = {
 };
       // Despues carcamos la tabla de usuarios
 
-const headers_globales_ajax = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': `Token ${localStorage.getItem('token')}`
+const configin_archivos = {
+    headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`,
+    },
+    processData: false,
+    contentType: false,
+    timeout: 5000
 };
 
 document.getElementById("cargar_tabla").onload = tabla()
@@ -1641,24 +1711,30 @@ document.getElementById("cargar_tabla").onload = tabla()
                                     </a>`
                     col4.innerHTML = `<span class="fw-normal ">${res[i].created}</span>`
                     col5.innerHTML = `<span class="fw-normal ">${res[i].pmoi}</span>`
-                    col6.innerHTML = `${res[i] && res[i].arrendador && res[i].arrendador[0] ? `                                        
-                                        <button type="button" class="btn btn-primary" data-tooltip="Ver documentos" onClick="guardar_datos_data('${res[i].slug}')";>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
-                                            <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
-                                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
-                                            </svg>
-                                            Ver Docs
-                                        </button>
-                                        
+                    col6.innerHTML = `<div class="text-center">
+                                        ${res[i] && res[i].arrendador && res[i].arrendador[0] ? ` 
+                                            <div class="button-container d-flex justify-content-center">                                       
+                                                <button type="button" class="btn btn-color" data-tooltip="Ver documentos" onClick="guardarArrendador('${res[i].slug}')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                                                        <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
+                                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
+                                                    </svg>
+                                                Ver Docs
+                                                </button>
+                                            </div>
+                                        </div>                                        
                                     `
-                                    : `
-                                       <button type="button" class="btn btn-primary" data-tooltip="Agregar documentos" data-bs-toggle="modal" data-bs-target="#archivos_arrendador" onClick="colocar_id('${res[i].id}', '${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria}')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
-                                                <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
-                                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
-                                                </svg>
-                                                Subir
-                                        </button>
+                                    : `<div class="text-center">
+                                            <div class="button-container d-flex justify-content-center"> 
+                                                <button type="button" class="btn btn-color" data-tooltip="Agregar documentos" data-bs-toggle="modal" data-bs-target="#archivos_arrendador" onClick="colocar_id('${res[i].id}', '${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria}')">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                                                        <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
+                                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
+                                                        </svg>
+                                                        Subir
+                                                </button>
+                                            </div>
+                                        </div>
                                        
                                        `
                                         }
@@ -1679,7 +1755,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                                                 </svg>&nbsp;Editar Arrendador
                                             </a>
 
-                                            <a class="dropdown-item d-flex align-items-center" onClick="alert0('${res[i].slug}')">
+                                            <a class="dropdown-item d-flex align-items-center" onClick="eliminarArrendador_('${res[i].slug}')">
                                                 <svg class="icon icon-xs text-danger ms-1" title="Eliminar" data-bs-toggle="tooltip" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
                                                 &nbsp;Borrar Arrendador
                                             </a>  
@@ -1697,7 +1773,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                                                 </svg>&nbsp;Editar Arrendador
                                             </a>
 
-                                            <a class="dropdown-item d-flex align-items-center" onClick="alert0('${res[i].slug}')">
+                                            <a class="dropdown-item d-flex align-items-center" onClick="eliminarArrendador_('${res[i].slug}')">
                                                 <svg class="icon icon-xs text-danger ms-1" title="Eliminar" data-bs-toggle="tooltip" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
                                                 &nbsp;Borrar Arrendador
                                             </a>                                    
@@ -1728,26 +1804,16 @@ document.getElementById("cargar_tabla").onload = tabla()
         });
 }
 
-function editar(slug){
-    $.ajax({
-        type: 'GET',
-        url: `${server}/Arrendador_Api/${slug}/`,
-        //url: `http://127.0.0.1:8000/Inmuebles/`,
-        headers: {'Authorization': `Token ${localStorage.getItem('token')}`},
-        mode: 'same-origin',
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            console.log(response); // handle the response from the server
-            localStorage.setItem('data_arrendador', JSON.stringify(response));
-            //window.location = `/editar_inmuebles/${slug}/`;
-            window.location.href = `/editar_arrendador/${slug}/`
-        },
-        error: function(response) {
-            console.log(response); // handle any errors from the server
-        }
-    });
+const editar = async (slug) => {
+    return axios.get(`${server}/Arrendador_Api/${slug}/`, configin)
+        .then(response =>{
+            localStorage.setItem('data_arrendador', JSON.stringify(response.data));        
+            window.location.href =  `/editar_arrendador/${slug}/`
+        }).catch(error => {
+            console.log(error);
+        })
 }
+
 
   // function registro
 const btnSubmit = document.getElementById("finalizar1")
@@ -1764,15 +1830,6 @@ btnSubmit.addEventListener("click", function (event) {
     enviar_datos(formulario)
     localStorage.removeItem('datos')
     setTimeout(() => {
-        //Swal.fire({
-        //                icon: 'success',
-        //                title: '¡Agregado correctamente!',
-        //                text: 'Se agrego de forma correcta',
-        //                showConfirmButton: false,
-        //                timer: 1300
-        //            }).then(() =>{
-        //                location.reload()
-        //            })
         location.reload()
     }, "2000");
        
@@ -1784,67 +1841,38 @@ async function enviar_datos(formulario){
     //location.reload()
 }
 
-
-async function eliminar(slug){
-    console.log("data_arrendador",data_arrendador)
-    let info = data_arrendador.filter(inquilino=>inquilino.slug==slug)
-    console.log("info",info[0].slug)
-    let clave = {slug:info[0].slug}
-    await axios.delete(`${server}/Arrendador_Api/${slug}/`,clave,configin)
-    .then(function (response) {
-            // manejar respuesta exitosa
-            console.log("eliminado exitosamente")
-            console.log(response);
-        })
-        .catch(function (error) {
-        // manejar error
+const eliminarArrendador = async (slug) =>{
+    try{
+        const response = await axios.delete(`${server}/Arrendador_Api/${slug}/`, configin);
+        console.log("Arrendador eliminado correctamente");
+        setTimeout(() =>{
+            location.reload();
+        }, 2000);
+    }catch(error){
         console.log(error);
-        })
-        .finally(function () {
-        // siempre sera executado
-        location.reload()
-        });
+    }
+}
+
+const detalles_arrendador = async (slug) => {
+    try{
+        const response = await axios.get(`${server}/Arrendador_Api/${slug}/`,configin);
+        localStorage.setItem('arrendador', JSON.stringify(response.data));
+        window.location = `/detalles_arrendador/${slug}/`;
+    }catch(error){
+        console.log(error);
+    }
 }
 
 
-function detalles_arrendador(slug){
-    $.ajax({
-        type: 'GET',
-        url: `${server}/Arrendador_Api/${slug}/`,
-        headers: headers_globales_ajax,
-        mode: 'same-origin',
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            console.log(response); // handle the response from the server
-            localStorage.setItem('arrendador', JSON.stringify(response));
-            window.location = `/detalles_arrendador/${slug}/`
-        },
-        error: function(response) {
-            console.log(response); // handle any errors from the server
-        }
-    });
-}
-
-
-function guardar_datos_data(slug){
-    console.log("Entro a guardar datos")
-    $.ajax({
-        type: 'GET',
-        url: `${server}/Arrendador_Api/${slug}/`,
-        headers: {'X-CSRFToken': csrftoken},
-        mode: 'same-origin',
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            console.log("Sidebio guardar datos"); // handle the response from the server
-            localStorage.setItem('data_arrendador', JSON.stringify(response));
-            window.location.href = `../documentos_detalles/${slug}/`;
-        },
-        error: function(response) {
-            console.log(response);
-        }
-    });
+const guardarArrendador = async (slug) =>{
+    try{
+        const response = await axios.get(`${server}/Arrendador_Api/${slug}/`, server, configin);
+        console.log("Debio guardar", response);
+        localStorage.setItem('data_arrendador', JSON.stringify(response.data));
+        window.location.href = `../documentos_detalles/${slug}/`;
+    }catch(error){
+        console.log(error);
+    }
 }
 </script>
 
@@ -1861,57 +1889,59 @@ function limpiar_formulario_post(){
     location.reload();
 }
 
+
+
 const formRegistroArchivos = document.getElementById("registro_archivos");
-
-formRegistroArchivos.addEventListener("submit", function(event) {
-    event.preventDefault(); // Evita el envío del formulario por defecto
-
-    if (formRegistroArchivos.checkValidity()) {
-        // El formulario es válido, puedes enviarlo
-        const formData = new FormData();
-            formData.append('ine', $('#ine')[0].files[0]);
-            formData.append('comp_dom',$('#comp_dom')[0].files[0])
-            formData.append('predial',$('#predial')[0].files[0])
-            formData.append('escrituras_titulo',$('#escrituras_titulo')[0].files[0])
-            formData.append('arrendador',$('#id_arrendador').val().trim())
-            console.log("Soy id arrendador", $('#id_arrendador').val().trim())
-            formData.forEach(function(value, key) {
-                console.log(key + ': ' + value);
-            });
-            console.log("Antes de enviar", formData)
-            localStorage.removeItem('datos')
-        $.ajax({
-                type: 'POST',
-                url: `${server}/documentos_arrendador/`,
-                headers: {'X-CSRFToken': csrftoken},
-                mode: 'same-origin',
-                data:  formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    console.log(response);
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Agregado correctamente!',
-                        text: 'Se agrego documentos de forma exitosa.',
-                        showConfirmButton: false,
-                        timer: 2000
-                    }, 2000).then(() => {
-                            location.reload();
-                        }).catch((error) => {
-                            console.error(error);
-                        });
-                },
-                error: function(response) {
-                    console.log(response); // handle any errors from the server
-                }
-            });
-    } else {
-        // El formulario no es válido, muestra los mensajes de validación
+formRegistroArchivos.addEventListener("submit", function(event){
+    event.preventDefault();
+    if (formRegistroArchivos.checkValidity()){
+        guardarArchivosArrendador();
+    }else{
         formRegistroArchivos.classList.add("was-validated");
-        console.log("No paso la validacion")
+        console.log("No paso la validacion");
     }
 });
+
+
+const guardarArchivosArrendador = async () => {
+    const formData = new FormData();
+    formData.append('ine', $('#ine')[0].files[0]);
+    formData.append('comp_dom', $('#comp_dom')[0].files[0]);
+    formData.append('predial', $('#predial')[0].files[0]);
+    formData.append('escrituras_titulo', $('#escrituras_titulo')[0].files[0]);
+    formData.append('arrendador', $('#id_arrendador').val().trim());
+
+    console.log("Soy id arrendador", $('#id_arrendador').val().trim());
+
+    //formData.forEach(function(value, key) {
+    //    console.log(key + ': ' + value);
+    //});
+
+    localStorage.removeItem('datos');
+    try {
+        const response = await guardarArchivosArrendador_(formData);
+
+        Swal.fire({
+            icon: 'success',
+            title: '¡Agregado correctamente!',
+            text: 'Se agregaron los documentos de forma exitosa.',
+            showConfirmButton: false,
+            timer: 2000
+        });
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+const guardarArchivosArrendador_ = (formData) =>{
+    //console.log("Siiiiii", formData);
+    return axios.post(`${server}/documentos_arrendador/`, formData, configin_archivos);
+}
+
 </script>
 
 <script>
