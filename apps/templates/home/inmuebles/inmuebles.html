@@ -375,7 +375,7 @@ hr.my-4 {
 
             </div>
             <div class="modal-footer">
-                <p>Mobiliario total del Departamento las lomas</p>
+                <p>Mobiliario total</p>
             </div>
         </div>
     </div>
@@ -1015,18 +1015,19 @@ function get_Arrendadores(){
 }
 
 
-get_Arrendadores().then((response) =>{
-    console.log("Si esta llegando a obtener datos arrendador");
-    var data = response.data;
-    $.each(data, function(index, item){
-        if(item.nombre === "")
-            $('#arrendador').append('<option value="' + item.id + '">' + item.custom_field + '</option>');
-        else
-            $('#arrendador').append('<option value="' + item.id + '">' + item.nombre + " "+ item.apellido + " " + item.apellido1 +'</option>');
-    });
-}).catch((error) =>{
-    console.log(error);
-})
+get_Arrendadores()
+    .then((response) =>{
+        console.log("Si esta llegando a obtener datos arrendador");
+        var data = response.data;
+        $.each(data, function(index, item){
+            if(item.nombre === "")
+                $('#arrendador').append('<option value="' + item.id + '">' + item.custom_field + '</option>');
+            else
+                $('#arrendador').append('<option value="' + item.id + '">' + item.nombre + " "+ item.apellido + " " + item.apellido1 +'</option>');
+        });
+    }).catch((error) =>{
+        console.log(error);
+    })
 
 
       // Despues carcamos la tabla de usuarios
@@ -1042,7 +1043,6 @@ document.getElementById("cargar_tabla").onload = tabla()
             // manejar respuesta exitosa
             for (let i = 0; i < data_inmuebles.length; i++){
                 console.log("for",data_inmuebles[i].user)
-              
             }
             var cuerpo = document.getElementById("table_body")
             let res = response.data
@@ -1087,15 +1087,15 @@ document.getElementById("cargar_tabla").onload = tabla()
                                         </button>
                                         `}`;
 
-            col6.innerHTML =  `${res[i].estatus_inmueble === "Rentado" ? `<select id="${res[i].slug}" style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
+            col6.innerHTML =  `${res[i].estatus_inmueble === "Rentado" ? `<select disabled id="${res[i].slug}" style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
                                 <option value="Activo" selected style="color:green; font-weight:bold;"><span >Activo</span></option>
                                 <option value="En espera" style="color:orange; font-weight:bold;">En espera</option>
                                 <option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option>
-                                </select>` : (res[i].estatus_inmueble === "Rechazado" ? `<select id="${res[i].slug}" style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
+                                </select>` : (res[i].estatus_inmueble === "Rechazado" ? `<select disabled id="${res[i].slug}" style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
                                     <option value="Activo"  style="color:green; font-weight:bold;"><span >Activo</span></option>
                                     <option value="En espera" style="color:orange; font-weight:bold;">En espera</option>
                                     <option value="Rechazado" selected style="color:red; font-weight:bold;">Rechazado</option>
-                                </select>` : `<select id="${res[i].slug}" style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
+                                </select>` : `<select disabled id="${res[i].slug}" style="color:green; font-weight:bold;" class="form-select select_status" aria-label="Default select example">
                                     <option value="Activo"  style="color:green; font-weight:bold;"><span >Activo</span></option>
                                     <option value="En espera" selected style="color:orange; font-weight:bold;">En espera</option>
                                     <option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option>
@@ -1528,7 +1528,386 @@ const verMobiliario = async(slug) =>{
 
 </script>
 
+{% comment %}   ------------------------------------------- Borrar ----------------------------------------------------------------------- {% endcomment %}
+<script>
 
+// Ejemplo ----------------------------------------------------------
+
+    function ontenerClima(ciudad){
+        return new Promise((resolve, reject) =>{
+            const apiKey = 'mi_llave_jajaj';
+            const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${ciudad}`;
+            fetch(url)
+                .then(response =>{
+                    if (response.ok)
+                        return response.json();
+                    else
+                        throw new Error('Error al obtener el clima');
+                }).then(data =>{
+                    resolve(data.current);
+                }).catch(error =>{
+                    reject(error);
+                });
+        
+        });
+    }
+
+    obtenerClima('San Francisco')
+        .then(clima =>{
+            console.log("El clima es", clima);
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+
+
+
+    const obtenerClima = async (ciudad) =>{
+        try{
+            const apiKey = 'mi_llave_jajaj';
+            const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${ciudad}`
+            const response = fetch(url);
+            if (response.ok)
+                //JSON.parse(response);
+                const data = await response.json();
+                return data.current;
+            else
+                throw new Error('Error al obtener el clima');
+            return response;
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+// Ejemplo ----------------------------------------------------------
+
+    const hacerPeticion = (url) => {
+        return new Promise((resolve, reject) =>{
+            //setTimeout(()=>{
+            //    const respuesta = await axios.get (`url`);
+            //    resolve(respuesta)
+            //}, 2000);
+            fetch(url)
+                .then(response =>{
+                    if (response.ok)
+                        return response.json();
+                    else
+                        throw new Error('Error');
+                }).then(data=>{
+                    setTimeout(()=>{
+                        return resolve(response);
+                    }, 2000)
+                })
+                .catch((error)=>{
+                    return reject(error);
+                });
+        });
+    }
+
+    const realizarPeticiones = async () =>{
+        try{
+            const respuesta1 = await hacerPeticion('https://');
+            console.log(respuesta1);
+
+            const respuest2 = await hacerPeticion('https://');
+            console.log(respuesta2);
+        }catch(error){
+            console.log(error);
+        }
+    };
+
+realizarPeticiones();
+
+
+// Ejemplo ----------------------------------------------------------
+
+const cargarArchivos = (urls) =>{
+    const promesas = urls.map((url)=>{
+        return axios.get(url)
+            .then((response) => response.data)
+            .catch((error)=>{
+                throw new Error('Error');
+            });
+    });
+    return Promise.all(promesas);
+}
+
+const archivos = [
+    'https://api.example.com/archivo1.txt',
+    'https://api.example.com/archivo2.txt',
+    'https://api.example.com/archivo3.txt'
+]
+
+cargarArchivos(archivos)
+    .then((resultados) =>{
+        console.log('Archivos cargados correctamente')
+    })
+    .catch((error)=>{
+        console.log(error);
+    });
+
+// Ejemplo ----------------------------------------------------------
+
+{% comment %} const operacion1 = () =>{
+    return axios.get('https://api.example.com/operacion1')
+        .then(response =>{
+            const resultado = response.data;
+            return resultado.json();
+        }).catch((error)=>{
+            console.log(error);
+        });
+} {% endcomment %}
+
+const operacion1 = () =>{
+    return new Promise((resolve, reject)=>{
+        feth('https://api.example.com/operacion1')
+            .then(response =>{
+                if(response.ok)
+                    return response.json()
+                else
+                    throw new Error('Error en la operacion1');
+            })
+            .catch(error =>{
+                return error;
+            })
+    })
+}
+const operacion2 = () => {
+    return axios.get('https://api.example.com/operacion2')
+        .then((response) =>{
+            //const resultado = response.data
+            return response.data;
+        }).catch((error)=>{
+            console.log(error)
+        });
+}
+
+const operacion3 = async ()=>{
+    try{
+        const response = await axios.get('https://api.example.com/operacion3');
+        return response.data;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+operacion1()
+    .then((resultado1) => {
+    console.log('Resultado 1:', resultado1);
+    return operacion2();
+  })
+  .then((resultado2) => {
+    console.log('Resultado 2:', resultado2);
+    return operacion3();
+  })
+  .then((resultado3) => {
+    console.log('Resultado 3:', resultado3);
+    // La cadena de promesas se ha completado exitosamente
+  })
+  .catch((error) => {
+    console.error('Error:', error.message);
+    // Manejo de errores en cualquier punto de la cadena de promesas
+  });
+
+
+// Ejemplo ----------------------------------------------------------
+
+    const hacerOperaciones = () =>{
+        return new Promise((resolve, reject) =>{
+            const valor = Math.random()* 2000;
+
+            setTimeout(()=>{
+                const exito = Math.random() < 0.8;
+                if (exito<0.8)
+                    resolve(exito);
+                else
+                     reject(new Error('Incorrecto'));
+            }, valor)
+        });            
+    }
+
+    hacerOperaciones()
+        .then(response =>{
+            console.log('Resultado', response, 'es correcto');
+            return respponse;
+        })
+        .then(response =>{
+            console.log("El nuevo valor es", response + 2);
+        })
+
+        .catch(error =>{
+            console.log('Resultado es', error);
+        })
+        .finally(()=>{
+
+        })
+
+hacerOperaciones();
+
+// Ejemplo hacer eventos ----------------------------------------------------------
+const submit = document.getElementById("submit");
+
+submit.addEventListener("click", function(){
+    event.preventDefault();
+})
+
+const submit = document.getElemntById("submit");
+
+submit.addEventListener("click", (event) =>{
+
+})
+
+
+{% comment %} Ejemplo {% endcomment %}
+
+const usuarioId = 1;
+const nuevosDatos = {
+  nombre: 'John Doe',
+  edad: 30,
+  email: 'johndoe@example.com'
+};
+
+const obtenerDatosDeUsuario = async (id) =>{
+    try{
+        const response = await axios.get(`https://api.example.com/usuarios/${id}`);
+        return response.data;
+    }catch(error){
+        throw new Error('Error al obtener los datos');
+    }
+};
+
+
+const guardarDatosDeUsuario = async (data, id) =>{
+    try{
+        const response = await axios.post(`https://api.example.com/usuarios/${id}`, data);
+        return response.data;
+    }catch(error){
+        throw new Error('Error al registrar los datos');
+    }
+}
+
+obtenerDatosDeUsuario(usuarioId)
+    .then(datos_usuario =>{
+        console.log("Datos usuario", datos_usuario);
+        return guardarDatosDeUsuario(nuevosDatos, usuarioId)
+    }).then(datos_guardados =>{
+        console.log(datos_guardados);
+    }).catch(error =>{
+        console.log(error);
+    });
+
+
+{% comment %} ------------------------------------------------------------------------- {% endcomment %}
+const mandarSolicitudServidor = async (url) =>{
+    try{
+        const response = await axios.get(url, configin);
+        return response.data;
+    }catch(error){
+        console.log(error);
+    }
+};
+
+const plantarDatosArrendador = (data) =>{
+    const selectElement = document.getElementById('nombre');
+    
+    data.forEach(data =>{
+        const optionElement = document.createElement('option');
+        optionElement.value = arrendador.id;
+        optionElement.textContent = `${arrendador.nombre} ${arrendador.apellido} ${arrendador.apellido1}`;
+        selectElement.appendChild(optionElement);
+    });
+};
+
+const obtenerDatos = async() =>{
+    try{
+        const response_arrendador = await mandarSolicitudServidor(url);
+        plantarDatosArrendador(response_arrendador);
+        const response_inmuebles = await mandarSolicitudServidor(url);
+        const response_inquilino = await mandarSolicitudServidor(url);
+    }catch(error){
+        console.log(error);
+    }
+};
+
+obtenerDatos()
+    .then(resultado =>{
+        console.log(resultado);
+    })
+    .catch(error =>{
+        console.error('Error: ', error);
+    });
+
+{% comment %} ----------------------------------------------------------------------------- {% endcomment %}
+
+const obtenerDatos = async() => {
+    try{
+        const response = await axios.get('url', configin);
+        return response.data;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+obtenerDatos()
+    .then(response =>{
+        console.log(response);
+    })
+
+
+{% comment %} Ejemplo practico {% endcomment %}
+
+const clienteId = '844555254'
+
+const hacerPeticion = (url) => {
+    return axios.get(url)
+        .then(response => response.data)
+        .catch(error => {
+            throw new Error('Error en la peticion', error);
+        })
+}
+
+const obtenerDatosCliente = async (clienteId) => {
+    try{
+        const url = `https://api.bbva.com/clientes/${clienteId}`;
+
+        const datos_cliente = await hacerPeticion(url);
+        const url_productos = `https://api.bbva.com/clientes/${clienteId}/productos`;
+        const productos = await hacerPeticion(url_productos);
+
+        const cuenta_bancaria = productos.find(producto => producto.tipo === 'cuenta_bancaria');
+        const url_movimientos = `https://api.bbva.com/cuentas/${cuentaBancaria.id}/movimientos`;
+
+
+        const movimientos = await hacerPeticion(url_movimientos);
+        const resultado = {
+            cliente: datos_cliente,
+            productos: productos,
+            movimientos: movimientos
+        };
+
+        return resultado;
+    }catch(error){
+        console.log(error);
+        throw error;
+    }
+}
+
+
+obtenerDatosCliente(clienteId)
+    .then(resultado => {
+        console.log('Datos del cliente', resultado);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+{% comment %} ///////////////////////////////---------------------------- {% endcomment %}
+
+
+
+
+
+</script>
 
 {% comment %} <script src="/static/assets/js/inmuebles.js"></script> {% endcomment %}
    

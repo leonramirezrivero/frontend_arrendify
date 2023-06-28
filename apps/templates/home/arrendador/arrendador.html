@@ -352,7 +352,10 @@ input[type="file"] {
   font-family: "Lucida Console", "Courier New", monospace;
   color: #fff;
 }
-
+.same-size-btn {
+  width: 110px; /* Cambia el tamaño según tus necesidades */
+  height: 32px; /* Cambia el tamaño según tus necesidades */
+}
 
 </style>
 {% endblock stylesheets %}
@@ -371,6 +374,7 @@ input[type="file"] {
         </a>
     </div>
   </div>
+        {% comment %} <button type="button" class="btn btn-success" id="genera_pdf">Success</button> {% endcomment %}
 
 <!-- Botón para abrir el modal -->
 </div>
@@ -406,7 +410,6 @@ input[type="file"] {
                 <th class="border-bottom">Archivos</th>
                 <th class="border-bottom">Estatus</th>
                 <th class="border-bottom">Acción</th>
-                <th class="border-bottom"></th>
             </tr>
         </thead>
         <tbody style="overflow-x: hidden;" id="table_body">
@@ -1714,7 +1717,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                     col6.innerHTML = `<div class="text-center">
                                         ${res[i] && res[i].arrendador && res[i].arrendador[0] ? ` 
                                             <div class="button-container d-flex justify-content-center">                                       
-                                                <button type="button" class="btn btn-color" data-tooltip="Ver documentos" onClick="guardarArrendador('${res[i].slug}')">
+                                                <button type="button" class="btn btn-color same-size-btn" data-tooltip="Ver documentos" onClick="guardarArrendador('${res[i].slug}')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                                                         <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
                                                         <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
@@ -1726,7 +1729,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                                     `
                                     : `<div class="text-center">
                                             <div class="button-container d-flex justify-content-center"> 
-                                                <button type="button" class="btn btn-color" data-tooltip="Agregar documentos" data-bs-toggle="modal" data-bs-target="#archivos_arrendador" onClick="colocar_id('${res[i].id}', '${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria}')">
+                                                <button type="button" class="btn btn-color same-size-btn" data-tooltip="Agregar documentos" data-bs-toggle="modal" data-bs-target="#archivos_arrendador" onClick="colocar_id('${res[i].id}', '${res[i].nombre !== "" ? res[i].nombre + " " +res[i].apellido + " " + res[i].apellido1 : res[i].n_inmobiliaria}')">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                                                         <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
                                                         <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
@@ -2119,6 +2122,41 @@ estado_civil.addEventListener("input", function(){
         auten()
     }
 </script>
+
+
+
+
+<script>
+
+{% comment %} const genera_pdf = document.getElementById("genera_pdf");
+
+genera_pdf.addEventListener("click", function(){
+   data = {
+    "Nombre":"Jose",
+    "valor":10
+   } 
+    generarPDF(data);
+}); {% endcomment %}
+
+{% comment %} const generarPDF = async(data)=>{
+    try {
+        const response = await axios.post(`${server}/pdf/`, JSON.stringify(data), { responseType: 'blob' });
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'archivo.pdf';
+        link.click();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Error al generar el PDF:', error);
+    }
+} {% endcomment %}
+
+</script>
+
+
+
 {% comment %} <script src="/static/assets/js/ocultadorespf.js"></script> {% endcomment %}
 <script src="/static/assets/js/validacionpf.js"></script>
 {% endblock javascripts %}
